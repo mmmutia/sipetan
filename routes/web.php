@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/admin/index', function () {
+    return view('admin/index');
+});
+
+Route::get('/auth/login', function () { return view('auth/login'); });
+Route::get('/auth/register', function () { return view('auth/register'); });
+Route::get('/auth/forgot-password', function () { return view('auth/forgot-password'); });
+
+Route::get('/admin/subdistrict', function () { return view('admin/subdistrict'); });
