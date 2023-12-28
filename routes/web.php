@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +18,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/admin/index', function () {
-    return view('admin/index');
-});
 
-Route::get('/auth/login', function () { return view('auth/login'); });
-Route::get('/auth/register', function () { return view('auth/register'); });
-Route::get('/auth/forgot-password', function () { return view('auth/forgot-password'); });
-
+Route::get('login',[App\Http\Controllers\LoginController::class, 'index'])->name('login');
+Route::post('/postlogin',[App\Http\Controllers\LoginController::class, 'postlogin'])->name('postlogin');
+Route::get('/logout',[App\Http\Controllers\LoginController::class, 'logout'])->name('logout');
 Route::get('/admin/subdistrict', function () { return view('admin/subdistrict'); });
+
+
+Route::middleware(['auth','ceklevel:admin,user'])->group(function () {
+    Route::get('/admin/index',[App\Http\Controllers\IndexAdminController::class, 'index'])->name('/index/admin');
+});
