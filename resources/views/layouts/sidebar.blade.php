@@ -1,7 +1,7 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
       <div class="sidebar-brand">
-        <a href="index.html">Stisla</a>
+        <a href="/admin/index">sipetan</a>
       </div>
       <div class="sidebar-brand sidebar-brand-sm">
         <a href="index.html">St</a>
@@ -9,11 +9,7 @@
       <ul class="sidebar-menu">
         <li class="menu-header">Dashboard</li>
         <li class="dropdown active">
-          <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-          <ul class="dropdown-menu">
-            <li><a class="nav-link" href="index-0.html">General Dashboard</a></li>
-            <li class=active><a class="nav-link" href="index.html">Ecommerce Dashboard</a></li>
-          </ul>
+          <a href="/admin/index" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
         </li>
         <li class="menu-header">DATA</li>
         <li><a class="nav-link" href="/admin/subdistrict"><i class="fas fa-map-marker-alt"></i> <span>Data Kecamatan</span></a></li>
@@ -27,7 +23,12 @@
           </ul>
         </li>
         @endif
-        <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li>
+        <li><a class="nav-link" href="/admin/altitude"><i class="far fa-square"></i> <span>Data Ketinggian Tempat</span></a></li>
+        <li><a class="nav-link" href="/admin/rainfall"><i class="far fa-square"></i> <span>Data Curah Hujan</span></a></li>
+        <li><a class="nav-link" href="/admin/temperature"><i class="far fa-square"></i> <span>Data Temperature</span></a></li>
+        <li><a class="nav-link" href="/admin/humidity"><i class="far fa-square"></i> <span>Data Kelembapan</span></a></li>
+        <li><a class="nav-link" href="/admin/solar-radiation"><i class="far fa-square"></i> <span>Data Penyinaran Matahari</span></a></li>
+        <li><a class="nav-link" href="/admin/soil-ph"><i class="far fa-square"></i> <span>Data pH Tanah</span></a></li>
         <li class="dropdown">
           <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Bootstrap</span></a>
           <ul class="dropdown-menu">
