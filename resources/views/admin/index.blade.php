@@ -98,7 +98,7 @@
         <div class="col-lg-8">
           <div class="card">
             <div class="card-header">
-              <h4>Budget vs Sales</h4>
+              <h4>HALAMAN ADMIN</h4>
             </div>
             <div class="card-body">
               <canvas id="myChart" height="158"></canvas>

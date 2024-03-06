@@ -12,7 +12,7 @@
           <a href="/admin/index" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
         </li>
         <li class="menu-header">DATA</li>
-        <li><a class="nav-link" href="/admin/subdistrict"><i class="fas fa-map-marker-alt"></i> <span>Data Kecamatan</span></a></li>
+
         @if (auth()->user()->level == 'user')
         <li class="dropdown">
           <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Layout</span></a>
@@ -23,13 +23,19 @@
           </ul>
         </li>
         @endif
+        @if (auth()->user()->level == '0')
         <li><a class="nav-link" href="/admin/altitude"><i class="far fa-square"></i> <span>Data Ketinggian Tempat</span></a></li>
+        <li><a class="nav-link" href="/admin/ph-soil"><i class="far fa-square"></i> <span>Data pH Tanah</span></a></li>
         <li><a class="nav-link" href="/admin/rainfall"><i class="far fa-square"></i> <span>Data Curah Hujan</span></a></li>
         <li><a class="nav-link" href="/admin/temperature"><i class="far fa-square"></i> <span>Data Temperature</span></a></li>
         <li><a class="nav-link" href="/admin/humidity"><i class="far fa-square"></i> <span>Data Kelembapan</span></a></li>
         <li><a class="nav-link" href="/admin/solar-radiation"><i class="far fa-square"></i> <span>Data Penyinaran Matahari</span></a></li>
-        <li><a class="nav-link" href="/admin/soil-ph"><i class="far fa-square"></i> <span>Data pH Tanah</span></a></li>
-        <li class="dropdown">
+        @endif
+        <li class="menu-header">USER</li>
+        <li><a class="nav-link" href="/admin/users"><i class="far fa-user"></i> <span>Data User</span></a></li>
+        <li><a class="nav-link" href="/admin/kriteria"><i class="far fa-user"></i> <span>Data Kriteria</span></a></li>
+        <li><a class="nav-link" href="/admin/subdistrict"><i class="fas fa-map-marker-alt"></i> <span>Data Alternatif</span></a></li>
+        {{-- <li class="dropdown">
           <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Bootstrap</span></a>
           <ul class="dropdown-menu">
             <li><a class="nav-link" href="bootstrap-alert.html">Alert</a></li>
@@ -53,7 +59,7 @@
             <li><a class="nav-link" href="bootstrap-tooltip.html">Tooltip</a></li>
             <li><a class="nav-link" href="bootstrap-typography.html">Typography</a></li>
           </ul>
-        </li>
+        </li> --}}
         @if (auth()->user()->level == 'user')
         <li class="menu-header">Stisla</li>
         <li class="dropdown">

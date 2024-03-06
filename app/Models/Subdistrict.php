@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Subdistrict extends Model
 {
@@ -11,6 +12,8 @@ class Subdistrict extends Model
     protected $table = "subdistricts";
     protected $primaryKey = "id";
     protected $fillable = [
-        'id','subdistrict'
+        'id','subdistrict','altitude','rainfall','solar_radiation','ph_soil','temperature','humidity',
     ];
+
+
 }

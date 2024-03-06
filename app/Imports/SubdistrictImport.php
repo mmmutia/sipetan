@@ -7,6 +7,10 @@ use Maatwebsite\Excel\Concerns\ToModel;
 
 class SubdistrictImport implements ToModel
 {
+    public function startRow(): int
+    {
+        return 2; // Skip the first row (header)
+    }
     /**
     * @param array $row
     *

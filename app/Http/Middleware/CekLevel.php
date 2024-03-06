@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CekLevel
@@ -15,9 +16,15 @@ class CekLevel
      */
     public function handle(Request $request, Closure $next, ...$levels): Response
     {
-        if(in_array($request->user()->level,$levels)){
+        $roles = array_slice(func_get_args(), 2);
+
+    foreach ($roles as $level) {
+        $user = Auth::user()->level;
+        if( $user == $level){
             return $next($request);
         }
-        return redirect('/');
+    }
+
+    return redirect('/');
     }
 }

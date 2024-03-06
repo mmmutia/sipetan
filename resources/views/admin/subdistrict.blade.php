@@ -6,7 +6,7 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Data Kecamatan</h1>
+            <h1>Data Alternatif</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
                 <div class="breadcrumb-item"><a href="#">Modules</a></div>
@@ -33,6 +33,7 @@
                                             #
                                         </th>
                                         <th>Nama Kecamatan</th>
+                                        <th>Keterangan</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -41,10 +42,11 @@
                                         <tr>
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $data->subdistrict }}</td>
+                                            <td></td>
                                             <td>
                                                 <div class="icon-container">
                                                 {{-- <a href="#" data-bs-toggle="modal" data-bs-target="#edit-activity" data-id="{{ $data->id }}"><i class="fas fa-edit"></i></a> --}}
-                                                <a href="/admin/edit-subdistrict" class="edit-button" data-bs-toggle="modal" data-bs-target="#edit-subdistrict">
+                                                <a href="/admin/edit-subdistrict-{{ $data->id }}" class="edit-button" data-bs-toggle="modal" data-bs-target="#edit-subdistrict">
                                                     <i class="fas fa-edit"></i>
                                                 </a>
                                                 <a href="/admin/delete-subdistrict-{{ $data->id }}" class="confirm-button" ><i class="fas fa-trash-alt" style="color: red"></i></a>
@@ -114,7 +116,10 @@
                                         Tolong upload sebuah file!
                                     </div>
                                     <label class="col-sm-12 col-form-label">- Format file yang di Upload dalam bentuk
-                                        (.xlxs) </label>
+                                        (.xlxs)
+                                    </label>
+                                    <label class="col-sm-12 col-form-label">- Data yang akan ditambahkan yaitu Kecamatan, Ketinggian Tempat dan pH Tanah
+                                    </label>
                                 </div>
                             </div>
                         </div>

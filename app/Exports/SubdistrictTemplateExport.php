@@ -15,7 +15,7 @@ class SubdistrictTemplateExport implements FromCollection
     {
         return collect([
             // Header
-            ['No','Nama Kecamatan'],
+            ['No','Nama Kecamatan','Ketinggian Tempat','pH Tanah'],
         ]);
     }
     public function headings(): array
@@ -23,6 +23,8 @@ class SubdistrictTemplateExport implements FromCollection
         return [
             'no',
             'Nama Kecamatan',
+            'Ketinggian Tempat',
+            'pH Tanah'
         ];
     }
 }

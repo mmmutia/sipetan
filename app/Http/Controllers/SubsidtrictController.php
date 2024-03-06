@@ -9,6 +9,7 @@ use App\Exports\SubdistrictImport;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\SubdistrictTemplateExport;
+use App\Imports\SubdistrictAllImport;
 use App\Imports\SubdistrictImport as ImportsSubdistrictImport;
 
 class SubsidtrictController extends Controller
@@ -31,7 +32,7 @@ class SubsidtrictController extends Controller
         $nameFile = $file->getClientOriginalName();
         $file->move('Subdistrict', $nameFile);
 
-        Excel::import(new ImportsSubdistrictImport, public_path("/Subdistrict/".$nameFile));
+        Excel::import(new SubdistrictAllImport, public_path("/Subdistrict/".$nameFile));
         return redirect('admin/subdistrict');
     }
 
@@ -55,6 +56,12 @@ class SubsidtrictController extends Controller
     {
         Subdistrict::create([
             'subdistrict'=>$request->subdistrict,
+            'altitude'=>$request->input('altitude', null),
+            'rainfall'=>$request->input('rainfall', null),
+            'solar_radiation'=>$request->input('solar-_radiation', null),
+            'ph_soil'=>$request->input('ph_soil', null),
+            'temperature'=>$request->input('temperature', null),
+            'humidity'=>$request->input('humidity', null),
         ]);
         return redirect('admin/subdistrict');
     }
