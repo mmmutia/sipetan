@@ -2,48 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comparison;
+use App\Models\Kriteria;
+use App\Models\Kalkulasi;
+use App\Models\Preverensi;
+use App\Models\PreverensiKal;
 use App\Models\Subdistrict;
 use Illuminate\Http\Request;
-use App\Exports\SubdistrictExport;
-use App\Exports\SubdistrictImport;
-use App\Http\Controllers\Controller;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\SubdistrictTemplateExport;
-use App\Imports\SubdistrictAllImport;
-use App\Imports\SubdistrictImport as ImportsSubdistrictImport;
-use App\Models\Kriteria;
-use App\Models\Preverensi;
 
-class SubsidtrictController extends Controller
+class KalkulasiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $subdistricts = Subdistrict::all();
-        return view('admin/subdistrict',compact('subdistricts'));
+        $kalkulasi = Kalkulasi::all();
+        return view('admin/kalkulasi',compact('kalkulasi'));
     }
 
-    public function perhitungan()
-    {
-        $subdistricts = Subdistrict::all();
-        return view('admin/perhitungan',compact('subdistricts'));
-    }
 
-    public function hasil()
+    public function comparison()
     {
         // Ambil nilai preferensi dari database
-        $preferences = Preverensi::orderByDesc('preverensi')->get();
+        $comparison = Comparison::all();
         // $preferences = Preverensi::all();
-        return view('admin.hasil', compact('preferences'));
+        return view('admin.comparison', compact('comparison'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('admin/kalkulasi');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        Kalkulasi::create([
+            'kalkulasis'=>$request->kalkulasi,
+            'altitude'=>$request->altitude,
+            'rainfall'=>$request->rainfall,
+            'solar_radiation'=>$request->solar_radiation,
+            'ph_soil'=>$request->ph_soil,
+            'temperature'=>$request->temperature,
+            'humidity'=>$request->humidity,
+        ]);
+        return redirect('admin/kalkulasi');
     }
 
     public function pembagi(Request $request)
     {
-        $subdistricts = Subdistrict::all();
-
-
+        $kalkulasi = Kalkulasi::all();
         $results = [];
         $bobots = [];
         $hasil_max = [];
@@ -60,7 +74,7 @@ class SubsidtrictController extends Controller
         $plus = 0;
         $min = 0;
 
-        foreach ($subdistricts as $data) {
+        foreach ($kalkulasi as $data) {
             $sum_of_altitude += pow($data->altitude, 2);
             $sum_of_rainfall += pow($data->rainfall, 2);
             $sum_of_solar_radiation += pow($data->solar_radiation, 2);
@@ -84,7 +98,7 @@ class SubsidtrictController extends Controller
         $results['result5'] = $result5;
         $results['result6'] = $result6;
 
-        foreach ($subdistricts as $data) {
+        foreach ($kalkulasi as $data) {
             // Mendapatkan nilai kriteria yang sesuai untuk setiap variabel
             $kriteria_altitude = Kriteria::where('name', 'ketinggian tempat')->first();
             $kriteria_rainfall = Kriteria::where('name', 'curah hujan')->first();
@@ -112,7 +126,7 @@ class SubsidtrictController extends Controller
             ];
         }
 
-        foreach ($subdistricts as $data) {
+        foreach ($kalkulasi as $data) {
             // Mendapatkan nilai kriteria yang sesuai untuk setiap variabel
             $hasil_altitude = Kriteria::where('description', 'cost')->first();
             $hasil_rainfall = Kriteria::where('description', 'benefit')->first();
@@ -149,7 +163,7 @@ class SubsidtrictController extends Controller
         $d_min_values = [];
 
         // Loop melalui setiap kecamatan
-        foreach ($subdistricts as $data) {
+        foreach ($kalkulasi as $data) {
             // Perhitungan bobot untuk setiap variabel
             // ...
 
@@ -171,7 +185,7 @@ class SubsidtrictController extends Controller
         // dd($d_plus_values);
 
         // Loop melalui setiap kecamatan
-        foreach ($subdistricts as $data) {
+        foreach ($kalkulasi as $data) {
             // Perhitungan bobot untuk setiap variabel
             // ...
 
@@ -189,77 +203,49 @@ class SubsidtrictController extends Controller
             $d_min_values[$data->id] = $result_d_min;
         }
 
-        Preverensi::truncate();
-       // Loop melalui setiap kecamatan
-        foreach ($subdistricts as $data) {
-        // Perhitungan D+/ (D+ + D-)
-        $preference_value = $d_min_values[$data->id] / ($d_min_values[$data->id] + $d_plus_values[$data->id]);
+        PreverensiKal::truncate();
+        // Loop melalui setiap kecamatan
+         foreach ($kalkulasi as $data) {
+         // Perhitungan D+/ (D+ + D-)
+         $preference_value = $d_min_values[$data->id] / ($d_min_values[$data->id] + $d_plus_values[$data->id]);
 
-        // Simpan hasil perhitungan preferensi untuk setiap kecamatan
-        $preferences[$data->id] = $preference_value;
+         // Simpan hasil perhitungan preferensi untuk setiap kecamatan
+         $preferences[$data->id] = $preference_value;
 
-            // Simpan hasil preferensi ke dalam database
-            $preference = new Preverensi();
-            $preference->subdistrict_id = $data->id; // Sesuaikan dengan nama kolom ID kecamatan
-            $preference->preverensi = $preference_value;
-            $preference->save();
+             // Simpan hasil preferensi ke dalam database
+             $preference = new PreverensiKal();
+             $preference->kalkulasis_id = $data->id; // Sesuaikan dengan nama kolom ID kecamatan
+             $preference->preverensi = $preference_value;
+             $preference->save();
 
-        }
+         }
 
-
-        return view('admin/perhitungan', ['results' => $results, 'bobots' => $bobots, 'hasil_max' => $hasil_max, 'hasil_min' => $hasil_min, 'd_plus_values' => $d_plus_values, 'd_min_values' => $d_min_values, 'subdistricts' => $subdistricts]);
+        return view('admin/hitung-kal', ['results' => $results, 'bobots' => $bobots, 'hasil_max' => $hasil_max, 'hasil_min' => $hasil_min, 'd_plus_values' => $d_plus_values, 'd_min_values' => $d_min_values, 'kalkulasi' => $kalkulasi]);
         // return $results;
         }
     }
 
-    public function alternatif()
+    public function simpanData()
     {
-        $subdistricts = Subdistrict::all();
-        return view('admin/alternatif',compact('subdistricts'));
+    $preverensis = Preverensi::all();
+    $results = [];
+
+    foreach ($preverensis as $preverensi) {
+        $prev_padi = PreverensiKal::where('kalkulasis_id', '4')->first();
+        $prev_jagung = PreverensiKal::where('kalkulasis_id', '5')->first();
+        $prev_kedelai = PreverensiKal::where('kalkulasis_id', '6')->first();
+        if ($preverensi->preverensi >= $prev_padi->preverensi) {
+            $results[] = "Padi";
+        } elseif ($preverensi->preverensi >= $prev_jagung->preverensi) {
+            $results[] = "Jagung";
+        } else {
+            $results[] = "Kedelai";
+        }
+    }
+    dd($results);
+
     }
 
-    public function subdistrictexport(){
-        return Excel::download(new SubdistrictExport, 'data_alternatif.xlsx');
-    }
-
-    public function subdistrictimport(Request $request){
-        $file = $request->file('file');
-        $nameFile = $file->getClientOriginalName();
-        $file->move('Subdistrict', $nameFile);
-
-        Excel::import(new SubdistrictAllImport, public_path("/Subdistrict/".$nameFile));
-        return redirect('admin/subdistrict');
-    }
-
-    public function downloadTemplate()
-    {
-        return Excel::download(new SubdistrictTemplateExport, 'data_kecamatan_template.xlsx');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('admin/subdistrict');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        Subdistrict::create([
-            'subdistrict'=>$request->subdistrict,
-            'altitude'=>$request->altitude,
-            'rainfall'=>$request->rainfall,
-            'solar_radiation'=>$request->solar_radiation,
-            'ph_soil'=>$request->ph_soil,
-            'temperature'=>$request->temperature,
-            'humidity'=>$request->humidity,
-        ]);
-        return redirect('admin/subdistrict');
-    }
 
 
     /**
@@ -273,11 +259,10 @@ class SubsidtrictController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Subdistrict $subdistrict, string $id)
+    public function edit(Kalkulasi $kalkulasi, string $id)
     {
-        $this->authorize('update', $subdistrict);
-        $subdistrict = Subdistrict::findorfail($id);
-        return view('admin/edit-subdistrict', compact('subdistrict'));
+        $kalkulasi = Kalkulasi::findorfail($id);
+        return view('admin/edit-kalkulasi', compact('kalkulasi'));
     }
 
     /**
@@ -285,19 +270,19 @@ class SubsidtrictController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $subdistricts = Subdistrict::findorfail($id);
-        $subdistricts->update($request->all());
+        $kalkulasi = Kalkulasi::findorfail($id);
+        $kalkulasi->update($request->all());
 
-        return redirect('admin/subdistrict');
+        return redirect('admin/kalkulasi');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Subdistrict $subdistrict, string $id)
+    public function destroy(Kalkulasi $kalkulasi, string $id)
     {
-        $subdistrict = Subdistrict::findorfail($id);
-        $subdistrict->delete();
+        $kalkulasi = Kalkulasi::findorfail($id);
+        $kalkulasi->delete();
 
         return back();
     }

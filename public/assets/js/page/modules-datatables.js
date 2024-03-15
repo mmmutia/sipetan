@@ -38,3 +38,23 @@ $("#table-2").dataTable({
     { "sortable": false, "targets": [0,2,3] }
   ]
 });
+$("#table-3").dataTable({
+    "columnDefs": [
+      { "sortable": false, "targets": [2,3] }
+    ]
+  });
+$("#table-4").dataTable({
+    "columnDefs": [
+      { "sortable": false, "targets": [0,1,2] }
+    ]
+  });
+  $("#table-5").dataTable({
+    "columnDefs": [
+      { "sortable": false, "targets": [2,3] }
+    ]
+  });
+  $("#table-6").dataTable({
+    "columnDefs": [
+      { "sortable": false, "targets": [0,2,3] }
+    ]
+  });

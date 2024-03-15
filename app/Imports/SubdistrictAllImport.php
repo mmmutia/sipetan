@@ -26,25 +26,25 @@ class SubdistrictAllImport implements ToCollection
         // Extract data from the current row
         $number = $row[0];
         $subdistrictName = $row[1];
-        $altitudeValue = $row[2];
-        $phSoilValue = $row[3];
+        $Altitude = $row[2];
+        $Rainfall = $row[3];
+        $SolarRadiation = $row[4];
+        $PhSoil = $row[5];
+        $Temperature = $row[6];
+        $Humidity = $row[7];
+
 
 
         // Create or update the Subdistrict
         $subdistrict = Subdistrict::updateOrCreate([
             'subdistrict' => $subdistrictName,
-        ]);
+            'altitude' => $Altitude,
+            'rainfall' => $Rainfall,
+            'solar_radiation' => $SolarRadiation,
+            'ph_soil' => $PhSoil,
+            'temperature' => $Temperature,
+            'humidity' => $Humidity,
 
-        // Create or update the Altitude
-        $altitude = Altitude::updateOrCreate([
-            'subdistrict_id' => $subdistrict->id,
-            'altitude' => $altitudeValue,
-        ]);
-
-        // Create or update the pH Soil
-        $phSoil = PhSoil::updateOrCreate([
-            'subdistrict_id' => $subdistrict->id,
-            'ph_soil' => $phSoilValue,
         ]);
 
     }

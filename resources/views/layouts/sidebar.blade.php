@@ -1,7 +1,7 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
       <div class="sidebar-brand">
-        <a href="/admin/index">sipetan</a>
+        <a href="index.html">Stisla</a>
       </div>
       <div class="sidebar-brand sidebar-brand-sm">
         <a href="index.html">St</a>
@@ -9,33 +9,30 @@
       <ul class="sidebar-menu">
         <li class="menu-header">Dashboard</li>
         <li class="dropdown active">
-          <a href="/admin/index" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-        </li>
-        <li class="menu-header">DATA</li>
-
-        @if (auth()->user()->level == 'user')
-        <li class="dropdown">
-          <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i> <span>Layout</span></a>
+          <a href="/home" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
           <ul class="dropdown-menu">
-            <li><a class="nav-link" href="layout-default.html">Default Layout</a></li>
-            <li><a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a></li>
-            <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
+            <li class=active><a class="nav-link" href="/home">General Dashboard</a></li>
+            <li><a class="nav-link" href="index.html">Ecommerce Dashboard</a></li>
           </ul>
         </li>
-        @endif
-        @if (auth()->user()->level == '0')
-        <li><a class="nav-link" href="/admin/altitude"><i class="far fa-square"></i> <span>Data Ketinggian Tempat</span></a></li>
-        <li><a class="nav-link" href="/admin/ph-soil"><i class="far fa-square"></i> <span>Data pH Tanah</span></a></li>
-        <li><a class="nav-link" href="/admin/rainfall"><i class="far fa-square"></i> <span>Data Curah Hujan</span></a></li>
-        <li><a class="nav-link" href="/admin/temperature"><i class="far fa-square"></i> <span>Data Temperature</span></a></li>
-        <li><a class="nav-link" href="/admin/humidity"><i class="far fa-square"></i> <span>Data Kelembapan</span></a></li>
-        <li><a class="nav-link" href="/admin/solar-radiation"><i class="far fa-square"></i> <span>Data Penyinaran Matahari</span></a></li>
-        @endif
-        <li class="menu-header">USER</li>
-        <li><a class="nav-link" href="/admin/users"><i class="far fa-user"></i> <span>Data User</span></a></li>
+        <li class="menu-header">DATA</li>
         <li><a class="nav-link" href="/admin/kriteria"><i class="far fa-user"></i> <span>Data Kriteria</span></a></li>
         <li><a class="nav-link" href="/admin/subdistrict"><i class="fas fa-map-marker-alt"></i> <span>Data Alternatif</span></a></li>
-        {{-- <li class="dropdown">
+        <li><a class="nav-link" href="/perhitungan"><i class="fas fa-map-marker-alt"></i> <span>Perhitungan</span></a></li>
+        <li><a class="nav-link" href="/hasil"><i class="fas fa-map-marker-alt"></i> <span>Hasil</span></a></li>
+        <li class="dropdown">
+            <a href="/admin/kalkulasi" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Data Kalkulasi</span></a>
+            <ul class="dropdown-menu">
+              <li class=active><a class="nav-link" href="/admin/kalkulasi">Data Kalkulasi</a></li>
+              <li><a class="nav-link" href="/hitung-kal">Perhitungan</a></li>
+            </ul>
+        </li>
+         <li><a class="nav-link" href="/comparison"><i class="fas fa-map-marker-alt"></i> <span>Perbandingan</span></a></li>
+        {{-- <li><a class="nav-link" href="/admin/kalkulasi"><i class="fas fa-map-marker-alt"></i> <span>Data Kalkulasi</span></a></li> --}}
+        <li class="menu-header">USER</li>
+        <li><a class="nav-link" href="/admin/users"><i class="far fa-user"></i> <span>Data User</span></a></li>
+        <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li>
+        <li class="dropdown">
           <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i> <span>Bootstrap</span></a>
           <ul class="dropdown-menu">
             <li><a class="nav-link" href="bootstrap-alert.html">Alert</a></li>
@@ -59,8 +56,7 @@
             <li><a class="nav-link" href="bootstrap-tooltip.html">Tooltip</a></li>
             <li><a class="nav-link" href="bootstrap-typography.html">Typography</a></li>
           </ul>
-        </li> --}}
-        @if (auth()->user()->level == 'user')
+        </li>
         <li class="menu-header">Stisla</li>
         <li class="dropdown">
           <a href="#" class="nav-link has-dropdown"><i class="fas fa-th-large"></i> <span>Components</span></a>
@@ -108,7 +104,6 @@
             <li><a class="nav-link" href="modules-weather-icon.html">Weather Icon</a></li>
           </ul>
         </li>
-        @endif
         <li class="menu-header">Pages</li>
         <li class="dropdown">
           <a href="#" class="nav-link has-dropdown"><i class="far fa-user"></i> <span>Auth</span></a>

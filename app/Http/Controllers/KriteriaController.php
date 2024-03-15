@@ -50,7 +50,7 @@ class KriteriaController extends Controller
      */
     public function edit(Kriteria $kriteria, string $id)
     {
-        $this->authorize('update',$kriteria);
+        // $this->authorize('update',$kriteria);
         $kriteria = Kriteria::findorfail($id);
         return view('admin/edit-kriteria', compact('kriteria'));
     }

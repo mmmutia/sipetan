@@ -45,136 +45,145 @@
                                             <td>{{ $data->description }}</td>
                                             <td>
                                                 <div class="icon-container">
-                                                {{-- <a href="#" data-bs-toggle="modal" data-bs-target="#edit-activity" data-id="{{ $data->id }}"><i class="fas fa-edit"></i></a> --}}
-                                                <a href="/admin/edit-kriteria-{{ $data->id }}" class="edit-button" data-bs-toggle="modal" data-bs-target="#edit-kriteria">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <a href="/admin/delete-kriteria-{{ $data->id }}" class="confirm-button" ><i class="fas fa-trash-alt" style="color: red"></i></a>
+                                                    <a data-toggle="modal" href="#edit-kriteria{{ $data->id }}" class="edit-button btn btn-icon btn-primary"><i
+                                                        class="far fa-edit"></i></a>
+                                                    <a href="/admin/delete-kriteria,{{ $data->id }}" class="confirm-button btn btn-icon btn-danger" ><i class="fas fa-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>
+
+
+
+                                            <!-- Modal Edit-->
+                                            {{-- @if($kriteria->isEmpty())
+                                            <p>Error!</p>
+                                        @else
+                                        <div class="modal fade center-modal" id="edit-kriteria{{ $data->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Edit kriteria</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        <form action="{{ route('admin/update-kriteria',$data->id) }}" class="needs-validation" novalidate="" method="POST">
+                                                            @csrf
+                                                            @method('PUT')
+                                                            <div class="card-body">
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-2 col-form-label">Nama</label>
+                                                                <div class="col-sm-10">
+                                                                    <input type="text" class="form-control" id="name" name="name" required="" value="{{ $data->name }}">
+                                                                <div class="invalid-feedback">
+                                                                    Tolong isi Nama Kriteria!
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-2 col-form-label">Bobot</label>
+                                                                <div class="col-sm-10">
+                                                                <input type="text" class="form-control" id="bobot" name="bobot" required="" value="{{ $data->bobot }}">
+                                                                <div class="invalid-feedback">
+                                                                    Tolong isi Bobot Kriteria!
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-2 col-form-label">Keterangan</label>
+                                                                <div class="col-sm-10">
+                                                                    <select class="form-control" id="description" name="description">
+                                                                        <option {{ $data->description == 'Benefit' ? 'selected' : '' }}>Benefit</option>
+                                                                        <option {{ $data->description == 'Cost' ? 'selected' : '' }}>Cost</option>
+                                                                    </select>
+                                                                <div class="invalid-feedback">
+                                                                    Tolong isi Keterangan Kriteria!
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        @endif --}}
+
                                         @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Modal Add-->
-    <div class="modal fade center-modal" id="add-kriteria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Tambah kriteria</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="/admin/save-kriteria" class="needs-validation" novalidate="" method="POST">
-                        @csrf
-                        <div class="card-body">
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Nama</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="name" name="name" required>
-                                    <div class="invalid-feedback">
-                                        Tolong isi Nama Kriteria!
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Bobot </label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="bobot" name="bobot" required>
-                                    <div class="invalid-feedback">
-                                        Tolong isi Bobot Kriteria!
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-sm-2 col-form-label">Keterangan</label>
-                                <div class="col-sm-10">
-                                    <select class="form-control" id="description" name="description">
-                                        <option>-- Pilih Keterangan --</option>
-                                        <option>Benefit</option>
-                                        <option>Cost</option>
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        Tolong isi Keterangan Kriteria!
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
 
 
-   <!-- Modal Edit-->
-    <div class="modal fade center-modal" id="edit-kriteria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit kriteria</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    @if($kriteria->isEmpty())
-                    <p>Error!</p>
-                    @else
-                    <form action="{{ route('admin/update-kriteria',$data->id) }}" class="needs-validation" novalidate="" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="card-body">
-                          <div class="form-group row">
+ <!-- Modal Add-->
+ <div class="modal fade center-modal" id="add-kriteria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Tambah kriteria</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/admin/save-kriteria" class="needs-validation" novalidate="" method="POST">
+                    @csrf
+                    <div class="card-body">
+                        <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Nama</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="name" name="name" required="" value="{{ $data->name }}">
-                              <div class="invalid-feedback">
-                                Tolong isi Nama Kriteria!
-                              </div>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                                <div class="invalid-feedback">
+                                    Tolong isi Nama Kriteria!
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Bobot</label>
+                            <label class="col-sm-2 col-form-label">Bobot </label>
                             <div class="col-sm-10">
-                              <input type="text" class="form-control" id="bobot" name="bobot" required="" value="{{ $data->bobot }}">
-                              <div class="invalid-feedback">
-                                Tolong isi Bobot Kriteria!
-                              </div>
+                                <input type="text" class="form-control" id="bobot" name="bobot" required>
+                                <div class="invalid-feedback">
+                                    Tolong isi Bobot Kriteria!
+                                </div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Keterangan</label>
                             <div class="col-sm-10">
                                 <select class="form-control" id="description" name="description">
-                                    <option {{ $data->description == 'Benefit' ? 'selected' : '' }}>Benefit</option>
-                                    <option {{ $data->description == 'Cost' ? 'selected' : '' }}>Cost</option>
+                                    <option>-- Pilih Keterangan --</option>
+                                    <option>Benefit</option>
+                                    <option>Cost</option>
                                 </select>
-                              <div class="invalid-feedback">
-                                Tolong isi Keterangan Kriteria!
-                              </div>
+                                <div class="invalid-feedback">
+                                    Tolong isi Keterangan Kriteria!
+                                </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Simpan</button>
-                        </div>
-                      </form>
-                      @endif
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-
+</div>
 
     </section>
 </div>
 
+
+
 @endsection
+
+
