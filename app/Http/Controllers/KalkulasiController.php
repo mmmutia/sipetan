@@ -226,25 +226,36 @@ class KalkulasiController extends Controller
     }
 
     public function simpanData()
-    {
+{
     $preverensis = Preverensi::all();
-    $results = [];
+
+    Comparison::truncate();
 
     foreach ($preverensis as $preverensi) {
         $prev_padi = PreverensiKal::where('kalkulasis_id', '4')->first();
         $prev_jagung = PreverensiKal::where('kalkulasis_id', '5')->first();
         $prev_kedelai = PreverensiKal::where('kalkulasis_id', '6')->first();
-        if ($preverensi->preverensi >= $prev_padi->preverensi) {
-            $results[] = "Padi";
-        } elseif ($preverensi->preverensi >= $prev_jagung->preverensi) {
-            $results[] = "Jagung";
-        } else {
-            $results[] = "Kedelai";
-        }
-    }
-    dd($results);
 
+        $results = new Comparison(); // Membuat instance model untuk menyimpan hasil perbandingan
+
+        if ($preverensi->preverensi >= $prev_padi->preverensi) {
+            $results->result = "Padi";
+        } elseif ($preverensi->preverensi >= $prev_jagung->preverensi) {
+            $results->result = "Jagung";
+        } else {
+            $results->result = "Kedelai";
+        }
+
+        // Mengatur ID kecamatan untuk hasil perbandingan
+        $results->subdistrict_id = $preverensi->subdistrict_id;
+
+        // Menyimpan hasil perbandingan ke database
+        $results->save();
     }
+
+    return view('admin.comparison');
+}
+
 
 
 

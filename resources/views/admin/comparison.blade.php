@@ -27,12 +27,19 @@
                                     <tr>
                                         <th class="text-center">#</th>
                                         <th>Kecamatan</th>
-                                        <th>Preferensi</th>
-                                        <th>Ranking</th>
+                                        <th>Kecocokan Tanaman Pangan</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    @foreach ($comparison as $data)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $data->subdistrict->subdistrict }}</td>
+                                        <td>{{ $data->result }}</td>
+                                        <td></td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -40,12 +47,12 @@
                 </div>
             </div>
         </div>
-
+{{--
         <div class="d-flex justify-content-center">
-            <a href="/hasil">
-                <button type="button" class="btn badge btn-primary btn-lg" style="margin-right: 10px;"><i class="fas fa-save"></i> Perbandingan</button>
+            <a href="#">
+                <button type="button" class="btn badge btn-primary btn-lg" style="margin-right: 10px;"><i class="fas fa-save"></i> Cetak Hasil</button>
             </a>
-        </div>
+        </div> --}}
 
 
     </div>

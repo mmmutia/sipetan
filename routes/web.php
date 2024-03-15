@@ -76,7 +76,7 @@ Route::middleware(['auth', 'ceklevel:0,1'])->group(function () {
 
 
     Route::get('/admin/kalkulasi',[App\Http\Controllers\KalkulasiController::class, 'index'])->name('/admin/kalkulasi');
-    Route::get('/comparison',[App\Http\Controllers\KalkulasiController::class, 'simpanData'])->name('/comparison');
+    Route::get('/comparison',[App\Http\Controllers\KalkulasiController::class, 'comparison'])->name('/comparison');
     Route::post('/admin/save-data',[App\Http\Controllers\KalkulasiController::class, 'simpanData'])->name('/admin/save-data');
     Route::get('/hitung-kal',[App\Http\Controllers\KalkulasiController::class, 'pembagi'])->name('/admin/hitung-kal');
     Route::get('/admin/add-kalkulasi',[App\Http\Controllers\KalkulasiController::class, 'create'])->name('/admin/add-kalkulasi');
