@@ -49,9 +49,15 @@
         </div>
 
         <div class="d-flex justify-content-center">
-            <a href="/comparison">
-                <button type="button" class="btn badge btn-primary btn-lg" style="margin-right: 10px;"><i class="fas fa-save"></i> Perbandingan</button>
-            </a>
+            <form action="{{ route('/admin/save-data') }}" method="post">
+                @csrf
+                <!-- Isi formulir -->
+                <button type="submit" class="btn badge btn-primary btn-lg" style="margin-right: 10px;"><i class="fas fa-save"></i> Perbandingan</button>
+            </form>
+
+            {{-- <a href="/comparison" method="post">
+                <button type="submit" class="btn badge btn-primary btn-lg" style="margin-right: 10px;"><i class="fas fa-save"></i> Perbandingan</button>
+            </a> --}}
         </div>
 
 

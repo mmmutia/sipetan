@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>General Dashboard &mdash; Stisla</title>
+  <title>SIPETAN &mdash; Stisla</title>
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap/css/bootstrap.min.css') }}">
@@ -41,6 +41,9 @@
       @include('layouts.sidebar')
 
       @yield('body')
+
+      @include('sweetalert::alert')
+
       <footer class="main-footer">
         <div class="footer-left">
           Copyright &copy; 2024 <div class="bullet"></div> Design By <a href="https://github.com/mmmutia">Mutia Budi Utami</a>

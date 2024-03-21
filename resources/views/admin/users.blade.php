@@ -43,7 +43,7 @@
                                             <td>{{ $data->level }}</td>
                                             <td>
                                                 <div class="icon-container">
-                                                <a href="/admin/delete-ph-soil-{{ $data->id }}" class="confirm-button" ><i class="fas fa-trash-alt" style="color: red"></i></a>
+                                                <a href="/admin/delete-user,{{ $data->id }}" class="confirm-button btn btn-icon btn-danger" ><i class="fas fa-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>

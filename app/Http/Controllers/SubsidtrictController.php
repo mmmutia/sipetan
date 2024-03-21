@@ -222,6 +222,7 @@ class SubsidtrictController extends Controller
         return Excel::download(new SubdistrictExport, 'data_alternatif.xlsx');
     }
 
+
     public function subdistrictimport(Request $request){
         $file = $request->file('file');
         $nameFile = $file->getClientOriginalName();
@@ -258,7 +259,7 @@ class SubsidtrictController extends Controller
             'temperature'=>$request->temperature,
             'humidity'=>$request->humidity,
         ]);
-        return redirect('admin/subdistrict');
+        return redirect('admin/subdistrict')->withSuccess('Data berhasil ditambah!');
     }
 
 
@@ -275,7 +276,7 @@ class SubsidtrictController extends Controller
      */
     public function edit(Subdistrict $subdistrict, string $id)
     {
-        $this->authorize('update', $subdistrict);
+        // $this->authorize('update', $subdistrict);
         $subdistrict = Subdistrict::findorfail($id);
         return view('admin/edit-subdistrict', compact('subdistrict'));
     }
@@ -288,7 +289,7 @@ class SubsidtrictController extends Controller
         $subdistricts = Subdistrict::findorfail($id);
         $subdistricts->update($request->all());
 
-        return redirect('admin/subdistrict');
+        return redirect('admin/subdistrict')->withInfo('Data berhasil di update!');
     }
 
     /**
@@ -299,6 +300,16 @@ class SubsidtrictController extends Controller
         $subdistrict = Subdistrict::findorfail($id);
         $subdistrict->delete();
 
-        return back();
+        return back()->withWarning('Data berhasil dihapus!');
     }
+
+    public function deleteAllData()
+    {
+        // Hapus semua data dari tabel menggunakan metode truncate()
+        Preverensi::truncate();
+
+        return redirect()->back()->withSuccess('Data berhasil di refresh!');
+    }
+
+
 }

@@ -14,17 +14,11 @@ class CekLevel
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, ...$levels): Response
+    public function handle(Request $request, Closure $next, ...$levels)
     {
-        $roles = array_slice(func_get_args(), 2);
-
-    foreach ($roles as $level) {
-        $user = Auth::user()->level;
-        if( $user == $level){
-            return $next($request);
-        }
-    }
-
-    return redirect('/');
+       if (in_array($request->user()->level,$levels)){
+        return $next($request);
+       }
+       return redirect('/');
     }
 }

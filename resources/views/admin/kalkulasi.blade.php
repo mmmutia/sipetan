@@ -54,8 +54,7 @@
                                             <td>{{ $data->humidity }}</td>
                                             <td>
                                                 <div class="icon-container">
-                                                <a data-toggle="modal" href="#edit" class="edit-button btn btn-icon btn-primary"><i
-                                                    class="far fa-edit"></i></a>
+                                                    <a class="btn btn-primary btn-action mr-1" href="/edit-kalkulasi,{{ $data->id }}" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
 
                                                 <a href="/admin/delete-kalkulasi,{{ $data->id }}" class="confirm-button btn btn-icon btn-danger" ><i class="fas fa-trash"></i></a>
                                                 </div>

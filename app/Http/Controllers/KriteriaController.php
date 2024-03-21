@@ -34,7 +34,7 @@ class KriteriaController extends Controller
             'bobot'=>$request->bobot,
             'description'=>$request->description,
         ]);
-        return redirect('admin/kriteria');
+        return redirect('admin/kriteria')->withSuccess('Tambah data berhasil!');
     }
 
     /**
@@ -63,7 +63,7 @@ class KriteriaController extends Controller
         $kriteria = Kriteria::findorfail($id);
         $kriteria->update($request->all());
 
-        return redirect('admin/kriteria');
+        return redirect('admin/kriteria')->withInfo('Data berhasil di update!');
     }
 
     /**
@@ -74,6 +74,6 @@ class KriteriaController extends Controller
         $kriteria = Kriteria::findorfail($id);
         $kriteria->delete();
 
-        return back();
+        return back()->withWarning('Data Berhasil Dihapus!');
     }
 }

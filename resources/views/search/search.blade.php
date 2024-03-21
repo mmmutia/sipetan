@@ -16,10 +16,10 @@
 
         <div class="row">
             <div class="col-12">
-                <div class="card-header">
-                    <a href="/print-comparison" target="_blank"><button type="button" class="btn badge btn-primary" style="margin-right: 10px;"><i class="fas fa-print"></i> Cetak Data</button></a>
-                </div>
                 <div class="card">
+                    <div class="card-header">
+                        <h2>Tabel Hasil Preferensi dan Rangking</h2>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped" id="table-1">
@@ -28,7 +28,7 @@
                                         <th class="text-center">#</th>
                                         <th>Kecamatan</th>
                                         <th>Kecocokan Tanaman Pangan</th>
-                                        <th>Persentase</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -37,7 +37,7 @@
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $data->subdistrict->subdistrict }}</td>
                                         <td>{{ $data->result }}</td>
-                                        <td>{{ number_format($data->percentase, 0, '.', '') }}%</td>
+                                        <td></td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -47,8 +47,15 @@
                 </div>
             </div>
         </div>
+{{--
+        <div class="d-flex justify-content-center">
+            <a href="#">
+                <button type="button" class="btn badge btn-primary btn-lg" style="margin-right: 10px;"><i class="fas fa-save"></i> Cetak Hasil</button>
+            </a>
+        </div> --}}
+
+
     </div>
 </section>
 @endsection
-
 

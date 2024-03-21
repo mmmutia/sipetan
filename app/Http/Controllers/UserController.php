@@ -18,6 +18,12 @@ class UserController extends Controller
         return view('admin/users',compact('user'));
     }
 
+    public function profile()
+    {
+        $user = User::all();
+        return view('auth/profile',compact('user'));
+    }
+
     public function userexport(){
         return Excel::download(new UsersExport, 'data_user.xlsx');
     }
@@ -51,16 +57,29 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::findorfail($id);
+        return view('auth/profile', compact('user'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+    $request->validate([
+        'name'=>['string','min:3','max:191','required'],
+        'email'=>['email','string','min:3','max:191','required'],
+    ]);
+
+    auth()->user()->update([
+        'name'=>$request->name,
+        'email'=>$request->email,
+    ]);
+    return redirect()->withInfo('Data berhasil di update!');
     }
+
+
 
     /**
      * Remove the specified resource from storage.

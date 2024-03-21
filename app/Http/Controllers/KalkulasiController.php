@@ -24,10 +24,14 @@ class KalkulasiController extends Controller
 
     public function comparison()
     {
-        // Ambil nilai preferensi dari database
         $comparison = Comparison::all();
-        // $preferences = Preverensi::all();
-        return view('admin.comparison', compact('comparison'));
+        return view('admin/comparison', compact('comparison'));
+    }
+
+    public function printcomparison()
+    {
+        $comparison = Comparison::all();
+        return view('admin/print-comparison', compact('comparison'));
     }
 
     /**
@@ -225,39 +229,45 @@ class KalkulasiController extends Controller
         }
     }
 
+
     public function simpanData()
-{
-    $preverensis = Preverensi::all();
+    {
+        $preverensis = Preverensi::all();
 
-    Comparison::truncate();
+        Comparison::truncate();
 
-    foreach ($preverensis as $preverensi) {
-        $prev_padi = PreverensiKal::where('kalkulasis_id', '4')->first();
-        $prev_jagung = PreverensiKal::where('kalkulasis_id', '5')->first();
-        $prev_kedelai = PreverensiKal::where('kalkulasis_id', '6')->first();
+        // Simpan hasil perhitungan dan hitung persentase
+        foreach ($preverensis as $preverensi) {
+            $prev_padi = PreverensiKal::where('kalkulasis_id', '1')->first();
+            $prev_jagung = PreverensiKal::where('kalkulasis_id', '2')->first();
+            $prev_kedelai = PreverensiKal::where('kalkulasis_id', '3')->first();
 
-        $results = new Comparison(); // Membuat instance model untuk menyimpan hasil perbandingan
+            $results = new Comparison(); // Membuat instance model untuk menyimpan hasil perbandingan
 
-        if ($preverensi->preverensi >= $prev_padi->preverensi) {
-            $results->result = "Padi";
-        } elseif ($preverensi->preverensi >= $prev_jagung->preverensi) {
-            $results->result = "Jagung";
-        } else {
-            $results->result = "Kedelai";
+            if ($preverensi->preverensi >= $prev_padi->preverensi) {
+                $results->result = "Padi";
+            } elseif ($preverensi->preverensi >= $prev_jagung->preverensi) {
+                $results->result = "Jagung";
+            } else {
+                $results->result = "Kedelai";
+            }
+
+            // Mengatur ID kecamatan untuk hasil perbandingan
+            $results->subdistrict_id = $preverensi->subdistrict_id;
+
+            // Hitung persentase
+            $prev = PreverensiKal::where('kalkulasis_id', '1')->first(); // Ambil data kalkulasi untuk Padi
+            $persentase = ($preverensi->preverensi / $prev->preverensi) * 100;
+
+            // Simpan persentase
+            $results->percentase = $persentase;
+
+            // Menyimpan hasil perbandingan ke database
+            $results->save();
         }
 
-        // Mengatur ID kecamatan untuk hasil perbandingan
-        $results->subdistrict_id = $preverensi->subdistrict_id;
-
-        // Menyimpan hasil perbandingan ke database
-        $results->save();
+        return redirect('/comparison');
     }
-
-    return view('admin.comparison');
-}
-
-
-
 
     /**
      * Display the specified resource.

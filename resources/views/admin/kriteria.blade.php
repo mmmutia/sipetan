@@ -20,7 +20,7 @@
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#add-kriteria">Tambah Data</button>&nbsp;&nbsp;&nbsp;
-                            <a href="/admin/export-kriteria"><button type="button" class="btn btn-primary" style="margin-right: 10px;"><i class="fas fa-file-export"></i> Export Kelembapan</button></a>
+                        <a href="/admin/export-kriteria"><button type="button" class="btn btn-primary" style="margin-right: 10px;"><i class="fas fa-file-export"></i> Export Data Kriteria</button></a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -45,9 +45,9 @@
                                             <td>{{ $data->description }}</td>
                                             <td>
                                                 <div class="icon-container">
-                                                    <a data-toggle="modal" href="#edit-kriteria{{ $data->id }}" class="edit-button btn btn-icon btn-primary"><i
-                                                        class="far fa-edit"></i></a>
-                                                    <a href="/admin/delete-kriteria,{{ $data->id }}" class="confirm-button btn btn-icon btn-danger" ><i class="fas fa-trash"></i></a>
+                                                    <a class="btn btn-primary btn-action mr-1" href="/edit-kriteria,{{ $data->id }}" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                                                    {{-- <a href="#edit-kriteria{{ $data->id }}" data-toggle="modal" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a> --}}
+                                                    <a href="/admin/delete-kriteria,{{ $data->id }}" class="btn btn-danger btn-action" data-toggle="tooltip" data-confirm-delete="true" title="Delete"><i class="fas fa-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>

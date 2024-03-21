@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('subdistrict_id')->constrained('subdistricts');
             $table->string('result');
+            $table->string('percentase');
             $table->timestamps();
         });
     }
