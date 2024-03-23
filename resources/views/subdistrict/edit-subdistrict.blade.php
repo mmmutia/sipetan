@@ -15,7 +15,7 @@
         </div>
         <div class="row">
               <div class="card">
-                <form action="{{ route('admin/update-subdistrict',$subdistrict->id) }}" class="needs-validation" novalidate="" method="POST">
+                <form action="{{ route('/update-subdistrict',$subdistrict->id) }}" class="needs-validation" novalidate="" method="POST">
                     @csrf
                   <div class="card-body">
                     <div class="form-group">

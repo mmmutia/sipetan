@@ -105,7 +105,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="table-2">
+                            <table class="table table-striped" id="table-6">
                                 <thead>
                                 </thead>
                                 <tbody>
@@ -191,6 +191,7 @@
                                         <th class="text-center">#</th>
                                         <th>Kecamatan</th>
                                         <th>Preverensi</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -202,6 +203,7 @@
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $data->subdistrict }}</td>
                                         <td>{{ $preference }}</td>
+                                        <td></td>
                                     </tr>
                                     @endforeach
                                 </tbody>

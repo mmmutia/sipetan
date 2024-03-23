@@ -45,5 +45,11 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function update(array $attributes = [], array $options = [])
+    {
+        return $this->fill($attributes)->save($options);
+    }
+
+
 
 }

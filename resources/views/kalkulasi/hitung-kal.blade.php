@@ -64,7 +64,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="table-1">
+                            <table class="table table-striped" id="table-2">
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
@@ -106,7 +106,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="table-1">
+                            <table class="table table-striped" id="table-6">
                                 <thead>
                                 </thead>
                                 <tbody>
@@ -152,13 +152,14 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="table-1">
+                            <table class="table table-striped" id="table-4">
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>
                                         <th>Kecamatan</th>
                                         <th>D+</th>
                                         <th>D-</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -168,6 +169,7 @@
                                         <td>{{ $data->kalkulasis }}</td>
                                         <td>{{ isset($d_plus_values[$data->id]) ? $d_plus_values[$data->id] : 'N/A' }}</td>
                                         <td>{{ isset($d_min_values[$data->id]) ? $d_min_values[$data->id] : 'N/A' }}</td>
+                                        <td></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -192,6 +194,7 @@
                                         <th class="text-center">#</th>
                                         <th>Kecamatan</th>
                                         <th>Preverensi</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -203,6 +206,7 @@
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $data->kalkulasis }}</td>
                                         <td>{{ $preference }}</td>
+                                        <td></td>
                                     </tr>
                                     @endforeach
                                 </tbody>
@@ -221,7 +225,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="table-2">
+                            <table class="table table-striped" id="table-3">
                                 <thead>
                                     <tr>
                                         <th class="text-center">#</th>

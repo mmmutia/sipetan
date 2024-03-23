@@ -53,10 +53,13 @@
                                             <td>{{ $data->temperature }}</td>
                                             <td>{{ $data->humidity }}</td>
                                             <td>
-                                                <div class="icon-container">
+                                                <div class="d-flex align-items-center">
                                                     <a class="btn btn-primary btn-action mr-1" href="/edit-kalkulasi,{{ $data->id }}" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-
-                                                <a href="/admin/delete-kalkulasi,{{ $data->id }}" class="confirm-button btn btn-icon btn-danger" ><i class="fas fa-trash"></i></a>
+                                                    <form action=/delete-kalkulasi,{{ $data->id }}" method="POST" class="ml-2">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button class="btn btn-danger btn-action confirm_delete"><i class="fas fa-trash"></i></button>
+                                                    </form>
                                                 </div>
                                             </td>
                                         </tr>
@@ -79,7 +82,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="/admin/save-kalkulasi" class="needs-validation" novalidate="" method="POST">
+                <form action="/save-kalkulasi" class="needs-validation" novalidate="" method="POST">
                     @csrf
                     <div class="card-body">
                         <div class="form-group row">
@@ -174,7 +177,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{ route('admin/update-subdistrict',) }}" class="needs-validation" novalidate="" method="POST">
+                <form action="{{ route(/update-subdistrict',) }}" class="needs-validation" novalidate="" method="POST">
                     @csrf
                     <div class="card-body">
                         <div class="form-group row">

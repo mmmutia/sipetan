@@ -27,17 +27,17 @@
                                     <tr>
                                         <th class="text-center">#</th>
                                         <th>Kecamatan</th>
-                                        <th>Kecocokan Tanaman Pangan</th>
-                                        <th></th>
+                                        <th>Preferensi</th>
+                                        <th>Ranking</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($comparison as $data)
+                                @foreach ($preferences as $data)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $data->subdistrict->subdistrict }}</td>
-                                        <td>{{ $data->result }}</td>
-                                        <td></td>
+                                        <td>{{ $data->preverensi }}</td>
+                                        <td class="text-bold">{{ $loop->iteration }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -47,12 +47,18 @@
                 </div>
             </div>
         </div>
-{{--
+
         <div class="d-flex justify-content-center">
-            <a href="#">
-                <button type="button" class="btn badge btn-primary btn-lg" style="margin-right: 10px;"><i class="fas fa-save"></i> Cetak Hasil</button>
-            </a>
-        </div> --}}
+            <form action="{{ route('/save-data') }}" method="post">
+                @csrf
+                <!-- Isi formulir -->
+                <button type="submit" class="btn badge btn-primary btn-lg" style="margin-right: 10px;"><i class="fas fa-save"></i> Perbandingan</button>
+            </form>
+
+            {{-- <a href="/comparison" method="post">
+                <button type="submit" class="btn badge btn-primary btn-lg" style="margin-right: 10px;"><i class="fas fa-save"></i> Perbandingan</button>
+            </a> --}}
+        </div>
 
 
     </div>

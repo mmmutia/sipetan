@@ -15,7 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-        return view('admin/users',compact('user'));
+        return view('user/users',compact('user'));
     }
 
     public function profile()
@@ -66,18 +66,20 @@ class UserController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request)
-    {
+{
     $request->validate([
-        'name'=>['string','min:3','max:191','required'],
-        'email'=>['email','string','min:3','max:191','required'],
+        'name' => ['string', 'min:3', 'max:191'],
+        'email' => ['email', 'string', 'min:3', 'max:191'],
     ]);
 
     auth()->user()->update([
-        'name'=>$request->name,
-        'email'=>$request->email,
+        'name' => $request->name,
+        'email' => $request->email,
     ]);
-    return redirect()->withInfo('Data berhasil di update!');
+
+    return redirect()->route('profile')->with('success', 'Data berhasil diupdate!');
     }
+
 
 
 
@@ -89,6 +91,6 @@ class UserController extends Controller
         $user = User::findorfail($id);
         $user->delete();
 
-        return back();
+        return redirect()->route('/')->with('warning', 'Akun berhasil diupdate!');
     }
 }

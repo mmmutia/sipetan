@@ -15,12 +15,16 @@
         </div>
         <div class="row">
               <div class="card">
-                <form action="{{ route('admin/update-kalkulasi',$kalkulasi->id) }}" class="needs-validation" novalidate="" method="POST">
+                <form action="{{ route('/update-kalkulasi',$kalkulasi->id) }}" class="needs-validation" novalidate="" method="POST">
                     @csrf
                   <div class="card-body">
                     <div class="form-group">
                         <label>Nama</label>
-                        <input type="text" id="kalkulasis" name="kalkulasis" class="form-control"  value="{{ $kalkulasi->kalkulasis }}">
+                        <select class="form-control" id="kalkulasis" name="kalkulasis">
+                            <option {{ $kalkulasi->kalkulasis == 'Padi' ? 'selected' : '' }}>Padi</option>
+                            <option {{ $kalkulasi->kalkulasis == 'Jagung' ? 'selected' : '' }}>Jagung</option>
+                            <option {{ $kalkulasi->kalkulasis == 'Kedelai' ? 'selected' : '' }}>Kedelai</option>
+                        </select>
                       </div>
                       <div class="form-group">
                         <label>Ketinggian Tempat</label>

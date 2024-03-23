@@ -18,20 +18,20 @@ class KalkulasiController extends Controller
     public function index()
     {
         $kalkulasi = Kalkulasi::all();
-        return view('admin/kalkulasi',compact('kalkulasi'));
+        return view('kalkulasi/kalkulasi',compact('kalkulasi'));
     }
 
 
     public function comparison()
     {
         $comparison = Comparison::all();
-        return view('admin/comparison', compact('comparison'));
+        return view('comparison/comparison', compact('comparison'));
     }
 
     public function printcomparison()
     {
         $comparison = Comparison::all();
-        return view('admin/print-comparison', compact('comparison'));
+        return view('comparison/print-comparison', compact('comparison'));
     }
 
     /**
@@ -39,7 +39,7 @@ class KalkulasiController extends Controller
      */
     public function create()
     {
-        return view('admin/kalkulasi');
+        return view('kalkulasi/kalkulasi');
     }
 
     /**
@@ -56,12 +56,15 @@ class KalkulasiController extends Controller
             'temperature'=>$request->temperature,
             'humidity'=>$request->humidity,
         ]);
-        return redirect('admin/kalkulasi');
+        return redirect('/kalkulasi')->withSuccess('Data berhasil ditambah!');
     }
 
     public function pembagi(Request $request)
     {
         $kalkulasi = Kalkulasi::all();
+        if ($kalkulasi->isEmpty()) {
+            return back()->withWarning('Isi Data Kalkulasi terlebih dahulu!');
+        }
         $results = [];
         $bobots = [];
         $hasil_max = [];
@@ -224,7 +227,7 @@ class KalkulasiController extends Controller
 
          }
 
-        return view('admin/hitung-kal', ['results' => $results, 'bobots' => $bobots, 'hasil_max' => $hasil_max, 'hasil_min' => $hasil_min, 'd_plus_values' => $d_plus_values, 'd_min_values' => $d_min_values, 'kalkulasi' => $kalkulasi]);
+        return view('kalkulasi/hitung-kal', ['results' => $results, 'bobots' => $bobots, 'hasil_max' => $hasil_max, 'hasil_min' => $hasil_min, 'd_plus_values' => $d_plus_values, 'd_min_values' => $d_min_values, 'kalkulasi' => $kalkulasi]);
         // return $results;
         }
     }
@@ -233,6 +236,10 @@ class KalkulasiController extends Controller
     public function simpanData()
     {
         $preverensis = Preverensi::all();
+        $preverensi_kal = PreverensiKal::all();
+        if ($preverensi_kal->isEmpty()) {
+            return back()->withWarning('Isi Data Kalkulasi terlebih dahulu!');
+        }
 
         Comparison::truncate();
 
@@ -283,7 +290,7 @@ class KalkulasiController extends Controller
     public function edit(Kalkulasi $kalkulasi, string $id)
     {
         $kalkulasi = Kalkulasi::findorfail($id);
-        return view('admin/edit-kalkulasi', compact('kalkulasi'));
+        return view('kalkulasi/edit-kalkulasi', compact('kalkulasi'));
     }
 
     /**
@@ -294,17 +301,17 @@ class KalkulasiController extends Controller
         $kalkulasi = Kalkulasi::findorfail($id);
         $kalkulasi->update($request->all());
 
-        return redirect('admin/kalkulasi');
+        return redirect('/kalkulasi')->withInfo('Data berhasil diupdate!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kalkulasi $kalkulasi, string $id)
+    public function delete(Kalkulasi $kalkulasi, string $id)
     {
         $kalkulasi = Kalkulasi::findorfail($id);
         $kalkulasi->delete();
 
-        return back();
+        return back()->withWarning('Data berhasil dihapus!');
     }
 }

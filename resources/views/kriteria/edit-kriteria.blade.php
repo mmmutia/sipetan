@@ -15,12 +15,19 @@
         </div>
         <div class="row">
               <div class="card">
-                <form action="{{ route('admin/update-kriteria',$kriteria->id) }}" class="needs-validation" novalidate="" method="POST">
+                <form action="{{ route('/update-kriteria',$kriteria->id) }}" class="needs-validation" novalidate="" method="POST">
                     @csrf
                   <div class="card-body">
                     <div class="form-group">
                       <label>Nama</label>
-                      <input type="text" id="name" name="name" class="form-control"  value="{{ $kriteria->name }}">
+                      <select class="form-control" id="name" name="name">
+                        <option {{ $kriteria->name == 'Ketinggian Tempat' ? 'selected' : '' }}>Ketinggian Tempat</option>
+                        <option {{ $kriteria->name == 'Curah Hujan' ? 'selected' : '' }}>Curah Hujan</option>
+                        <option {{ $kriteria->name == 'Penyinaran Matahari' ? 'selected' : '' }}>Penyinaran Matahari</option>
+                        <option {{ $kriteria->name == 'pH Tanah' ? 'selected' : '' }}>Curah Hujan</option>
+                        <option {{ $kriteria->name == 'Temperature' ? 'selected' : '' }}>Temperature</option>
+                        <option {{ $kriteria->name == 'Kelembapan' ? 'selected' : '' }}>Kelembapan</option>
+                    </select>
                     </div>
                     <div class="form-group">
                       <label>Bobot</label>

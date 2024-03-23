@@ -13,7 +13,7 @@ class KriteriaController extends Controller
     public function index()
     {
         $kriteria = Kriteria::all();
-        return view('admin/kriteria',compact('kriteria'));
+        return view('kriteria/kriteria',compact('kriteria'));
     }
 
     /**
@@ -21,7 +21,7 @@ class KriteriaController extends Controller
      */
     public function create()
     {
-        return view('admin/kriteria');
+        return view('kriteria/kriteria');
     }
 
     /**
@@ -34,7 +34,7 @@ class KriteriaController extends Controller
             'bobot'=>$request->bobot,
             'description'=>$request->description,
         ]);
-        return redirect('admin/kriteria')->withSuccess('Tambah data berhasil!');
+        return redirect('/kriteria')->withSuccess('Tambah data berhasil!');
     }
 
     /**
@@ -52,7 +52,7 @@ class KriteriaController extends Controller
     {
         // $this->authorize('update',$kriteria);
         $kriteria = Kriteria::findorfail($id);
-        return view('admin/edit-kriteria', compact('kriteria'));
+        return view('kriteria/edit-kriteria', compact('kriteria'));
     }
 
     /**
@@ -63,16 +63,17 @@ class KriteriaController extends Controller
         $kriteria = Kriteria::findorfail($id);
         $kriteria->update($request->all());
 
-        return redirect('admin/kriteria')->withInfo('Data berhasil di update!');
+        return redirect('/kriteria')->withInfo('Data berhasil di update!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kriteria $kriteria, string $id)
+    public function delete(Kriteria $kriteria, string $id)
     {
         $kriteria = Kriteria::findorfail($id);
         $kriteria->delete();
+
 
         return back()->withWarning('Data Berhasil Dihapus!');
     }

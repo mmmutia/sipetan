@@ -22,13 +22,13 @@ class SubsidtrictController extends Controller
     public function index()
     {
         $subdistricts = Subdistrict::all();
-        return view('admin/subdistrict',compact('subdistricts'));
+        return view('subdistrict/subdistrict',compact('subdistricts'));
     }
 
     public function perhitungan()
     {
         $subdistricts = Subdistrict::all();
-        return view('admin/perhitungan',compact('subdistricts'));
+        return view('subdistrict/perhitungan',compact('subdistricts'));
     }
 
     public function hasil()
@@ -36,13 +36,15 @@ class SubsidtrictController extends Controller
         // Ambil nilai preferensi dari database
         $preferences = Preverensi::orderByDesc('preverensi')->get();
         // $preferences = Preverensi::all();
-        return view('admin.hasil', compact('preferences'));
+        return view('hasil/hasil', compact('preferences'));
     }
 
     public function pembagi(Request $request)
     {
         $subdistricts = Subdistrict::all();
-
+        if ($subdistricts->isEmpty()) {
+            return back()->withWarning('Isi Data Kriteria atau Alternatif terlebih dahulu!');
+        }
 
         $results = [];
         $bobots = [];
@@ -207,7 +209,7 @@ class SubsidtrictController extends Controller
         }
 
 
-        return view('admin/perhitungan', ['results' => $results, 'bobots' => $bobots, 'hasil_max' => $hasil_max, 'hasil_min' => $hasil_min, 'd_plus_values' => $d_plus_values, 'd_min_values' => $d_min_values, 'subdistricts' => $subdistricts]);
+        return view('perhitungan/perhitungan', ['results' => $results, 'bobots' => $bobots, 'hasil_max' => $hasil_max, 'hasil_min' => $hasil_min, 'd_plus_values' => $d_plus_values, 'd_min_values' => $d_min_values, 'subdistricts' => $subdistricts]);
         // return $results;
         }
     }
@@ -215,7 +217,7 @@ class SubsidtrictController extends Controller
     public function alternatif()
     {
         $subdistricts = Subdistrict::all();
-        return view('admin/alternatif',compact('subdistricts'));
+        return view('subdistrict/subdistrict',compact('subdistricts'));
     }
 
     public function subdistrictexport(){
@@ -229,7 +231,7 @@ class SubsidtrictController extends Controller
         $file->move('Subdistrict', $nameFile);
 
         Excel::import(new SubdistrictAllImport, public_path("/Subdistrict/".$nameFile));
-        return redirect('admin/subdistrict');
+        return redirect('alternatif')->withSuccess('Data berhasil ditambah!');
     }
 
     public function downloadTemplate()
@@ -242,7 +244,7 @@ class SubsidtrictController extends Controller
      */
     public function create()
     {
-        return view('admin/subdistrict');
+        return view('subdistrict/subdistrict');
     }
 
     /**
@@ -259,7 +261,7 @@ class SubsidtrictController extends Controller
             'temperature'=>$request->temperature,
             'humidity'=>$request->humidity,
         ]);
-        return redirect('admin/subdistrict')->withSuccess('Data berhasil ditambah!');
+        return redirect('/alternatif')->withSuccess('Data berhasil ditambah!');
     }
 
 
@@ -278,7 +280,7 @@ class SubsidtrictController extends Controller
     {
         // $this->authorize('update', $subdistrict);
         $subdistrict = Subdistrict::findorfail($id);
-        return view('admin/edit-subdistrict', compact('subdistrict'));
+        return view('subdistrict/edit-subdistrict', compact('subdistrict'));
     }
 
     /**
@@ -289,13 +291,13 @@ class SubsidtrictController extends Controller
         $subdistricts = Subdistrict::findorfail($id);
         $subdistricts->update($request->all());
 
-        return redirect('admin/subdistrict')->withInfo('Data berhasil di update!');
+        return redirect('/alternatif')->withInfo('Data berhasil di update!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Subdistrict $subdistrict, string $id)
+    public function delete(Subdistrict $subdistrict, string $id)
     {
         $subdistrict = Subdistrict::findorfail($id);
         $subdistrict->delete();

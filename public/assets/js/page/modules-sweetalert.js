@@ -1,5 +1,22 @@
 "use strict";
 
+$('.confirm_delete').click(function(event) {
+    let form =  $(this).closest("form");
+    event.preventDefault();
+    swal({
+        title: `Yakin akan mengapus data?`,
+        text: "Data akan dihapus permanen.",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        form.submit();
+      }
+    });
+});
+
 $("#swal-1").click(function() {
 	swal('Hello');
 });

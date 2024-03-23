@@ -2,6 +2,12 @@
 
 @section('body')
 
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
 <section class="section">
     <div class="container mt-5">
       <div class="row">
@@ -17,7 +23,7 @@
                   <label for="email">Email</label>
                   <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
                   <div class="invalid-feedback">
-                    Please fill in your email
+                    Email tidak sesuai!
                   </div>
                 </div>
 
@@ -32,7 +38,7 @@
                   </div>
                   <input id="password" type="password" class="form-control" name="password" tabindex="2" required>
                   <div class="invalid-feedback">
-                    please fill in your password
+                    tolong isi password!
                   </div>
                 </div>
 

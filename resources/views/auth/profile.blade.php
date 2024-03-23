@@ -29,14 +29,14 @@
                     <div class="row">
                       <div class="form-group col-md-6 col-12">
                         <label>Nama</label>
-                        <input type="text" class="form-control" value="{{ Auth::user()->name }}" >
+                        <input type="text" id="name" name="name" class="form-control" value="{{ Auth::user()->name }}" >
                         <div class="invalid-feedback">
                           Tolong isi nama kamu!
                         </div>
                       </div>
                       <div class="form-group col-md-6 col-12">
                         <label>Email</label>
-                        <input type="text" class="form-control" value="{{ Auth::user()->email }}" >
+                        <input type="email" id="email" name="email" class="form-control" value="{{ Auth::user()->email }}" >
                         <div class="invalid-feedback">
                           Tolong isi email kamu!
                         </div>

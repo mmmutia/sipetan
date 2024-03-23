@@ -15,13 +15,25 @@ class LoginController extends Controller
      */
 
      public function postlogin(Request $request)
-    {
-    if (Auth::attempt($request->only('email', 'password'))) {
-        return redirect('home')->with('success', 'Login berhasil!');
-    }
+     {
+         // Validasi input
+         $request->validate([
+             'email' => ['required', 'email', 'string', 'min:3', 'max:191'],
+             'password' => ['required'],
+         ]);
 
-    return redirect('login')->withErrors(['error' => 'Email atau password salah. Silakan coba lagi.']);
-    }
+         // Lakukan proses otentikasi
+         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+             // Jika berhasil login
+             return redirect('home')->with('success', 'Login berhasil!');
+         } else {
+             // Jika username atau password salah
+             return redirect()->back()->withInput()->with('error', 'Username atau password salah! Silahkan coba lagi.');
+         }
+     }
+
+
+
 
     public function logout(Request $request)
     {
