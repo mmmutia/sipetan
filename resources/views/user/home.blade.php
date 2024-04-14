@@ -84,8 +84,14 @@
                           </a>
                           <div class="media-body">
                             <div class="media-right">
-                                @if(\App\Models\Comparison::where('result', 'padi')->count() > 0)
-                                    {{ \App\Models\Comparison::where('result', 'padi')->count() }} Kecamatan
+                                @php
+                                    $padiCount = \App\Models\Comparison::whereHas('kalkulasi', function($query) {
+                                        $query->where('kalkulasis', 'padi');
+                                    })->count();
+                                @endphp
+
+                                @if($padiCount > 0)
+                                    {{ $padiCount }} Kecamatan
                                 @else
                                     Tidak ada data!
                                 @endif
@@ -100,11 +106,17 @@
                           </a>
                           <div class="media-body">
                             <div class="media-right">
-                                @if(\App\Models\Comparison::where('result', 'jagung')->count() > 0)
-                                {{ \App\Models\Comparison::where('result', 'jagung')->count() }} Kecamatan
-                            @else
-                                Tidak ada data!
-                            @endif
+                                @php
+                                    $jagungCount = \App\Models\Comparison::whereHas('kalkulasi', function($query) {
+                                        $query->where('kalkulasis', 'jagung');
+                                    })->count();
+                                @endphp
+
+                                @if($jagungCount > 0)
+                                    {{ $jagungCount }} Kecamatan
+                                @else
+                                    Tidak ada data!
+                                @endif
                             </div>
                             <div class="media-title">Tanaman Jagung</div>
                             <div class="text-small text-muted">Tahun<div class="bullet"></div> 2021</div>
@@ -116,11 +128,18 @@
                           </a>
                           <div class="media-body">
                             <div class="media-right">
-                                @if(\App\Models\Comparison::where('result', 'kedelai')->count() > 0)
-                                {{ \App\Models\Comparison::where('result', 'kedelai')->count() }} Kecamatan
+                                @php
+                                $kedelaiCount = \App\Models\Comparison::whereHas('kalkulasi', function($query) {
+                                    $query->where('kalkulasis', 'kedelai');
+                                })->count();
+                            @endphp
+
+                            @if($kedelaiCount > 0)
+                                {{ $kedelaiCount }} Kecamatan
                             @else
                                 Tidak ada data!
                             @endif
+
                             </div>
                             <div class="media-title">Tanaman Kedelai</div>
                             <div class="text-muted text-small">Tahun<div class="bullet"></div> 2021

@@ -6,7 +6,7 @@
 <div class="main-content">
     <section class="section">
         <div class="section-header">
-            <h1>Data Hasil Perhitungan</h1>
+            <h1>Data Hasil Perbandingan</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
                 <div class="breadcrumb-item"><a href="#">Modules</a></div>
@@ -28,7 +28,8 @@
                                         <th class="text-center">#</th>
                                         <th>Kecamatan</th>
                                         <th>Kecocokan Tanaman Pangan</th>
-                                        <th>Persentase</th>
+                                        <th></th>
+                                        {{-- <th>Persentase</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -36,8 +37,9 @@
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $data->subdistrict->subdistrict }}</td>
-                                        <td>{{ $data->result }}</td>
-                                        <td>{{ number_format($data->percentase, 0, '.', '') }}%</td>
+                                        <td>{{ $data->kalkulasi->kalkulasis }}</td>
+                                        <td></td>
+                                        {{-- <td>{{ number_format($data->percentase, 0, '.', '') }}%</td> --}}
                                     </tr>
                                 @endforeach
                                 </tbody>

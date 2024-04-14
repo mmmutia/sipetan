@@ -11,11 +11,16 @@ class Comparison extends Model
     protected $table = "comparisons";
     protected $primaryKey = "id";
     protected $fillable = [
-        'id','subdistrict_id','result',
+        'id','subdistrict_id','kalkulasis_id',
     ];
 
     public function subdistrict()
     {
         return $this->belongsTo(Subdistrict::class, 'subdistrict_id');
+    }
+
+    public function kalkulasi()
+    {
+        return $this->belongsTo(Kalkulasi::class, 'kalkulasis_id');
     }
 }

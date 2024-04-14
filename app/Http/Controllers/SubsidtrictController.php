@@ -11,8 +11,10 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\SubdistrictTemplateExport;
 use App\Imports\SubdistrictAllImport;
 use App\Imports\SubdistrictImport as ImportsSubdistrictImport;
+use App\Models\Comparison;
 use App\Models\Kriteria;
 use App\Models\Preverensi;
+use App\Models\PreverensiKal;
 
 class SubsidtrictController extends Controller
 {
@@ -43,8 +45,20 @@ class SubsidtrictController extends Controller
     {
         $subdistricts = Subdistrict::all();
         if ($subdistricts->isEmpty()) {
-            return back()->withWarning('Isi Data Kriteria atau Alternatif terlebih dahulu!');
+            return back()->withWarning('Isi Data Alternatif terlebih dahulu!');
         }
+        $kriteria_altitude = Kriteria::where('name', 'ketinggian tempat')->first();
+        $kriteria_rainfall = Kriteria::where('name', 'curah hujan')->first();
+        $kriteria_solar_radiation = Kriteria::where('name', 'penyinaran matahari')->first();
+        $kriteria_ph_soil = Kriteria::where('name', 'ph tanah')->first();
+        $kriteria_temperature = Kriteria::where('name', 'temperature')->first();
+        $kriteria_humidity = Kriteria::where('name', 'kelembapan')->first();
+
+        // Memeriksa apakah salah satu kriteria tidak ditemukan
+        if (!$kriteria_altitude || !$kriteria_rainfall || !$kriteria_solar_radiation || !$kriteria_ph_soil || !$kriteria_temperature || !$kriteria_humidity) {
+            return back()->withWarning('Isi dan periksa data kriteria terlebih dahulu!');
+        }
+
 
         $results = [];
         $bobots = [];
@@ -309,6 +323,8 @@ class SubsidtrictController extends Controller
     {
         // Hapus semua data dari tabel menggunakan metode truncate()
         Preverensi::truncate();
+        Comparison::truncate();
+
 
         return redirect()->back()->withSuccess('Data berhasil di refresh!');
     }

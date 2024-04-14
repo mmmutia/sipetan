@@ -16,6 +16,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                        <form action="{{ route('/save-data') }}" method="post">
+                            @csrf
+                            <!-- Isi formulir -->
+                            <button type="submit" class="btn badge btn-primary btn-md float-left ml-3"><i class="fas fa-save"></i> Lihat perbandingan</button>
+                        </form>
+
                     <div class="card-header">
                         <h2>Tabel Matriks Keputusan Ternormalisasi</h2>
                     </div>
@@ -212,11 +218,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="d-flex justify-content-center">
-            <a href="/hasil">
-                <button type="button" class="btn badge btn-primary btn-lg" style="margin-right: 10px;"><i class="fas fa-save"></i> Simpan dan Lihat Hasil</button>
-            </a>
         </div>
 
 

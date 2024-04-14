@@ -21,7 +21,7 @@
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#add-kalkulasi">Tambah Data</button>&nbsp;&nbsp;&nbsp;
                             <a href="/hitung-kal" id="hitungButton"><button type="button" class="btn btn-primary" style="margin-right: 10px;"><i class="fas fa-calculator"></i> Hitung</button></a>
-                            {{-- <a href="#"><button type="button" class="btn btn-primary" style="margin-right: 10px;"><i class="fas fa-calculator"></i> Hitung</button></a> --}}
+                            <a href="/del-kal"><button type="button" class="btn btn-primary" style="margin-right: 10px;"><i class="fas fa-recycle"></i> Refresh</button></a>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -55,7 +55,7 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <a class="btn btn-primary btn-action mr-1" href="/edit-kalkulasi,{{ $data->id }}" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                                    <form action=/delete-kalkulasi,{{ $data->id }}" method="POST" class="ml-2">
+                                                    <form action="/delete-kalkulasi,{{ $data->id }}" method="POST" class="ml-2">
                                                         @method('DELETE')
                                                         @csrf
                                                         <button class="btn btn-danger btn-action confirm_delete"><i class="fas fa-trash"></i></button>
@@ -78,7 +78,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Tambah Kecamatan</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Tambah Data Kalkulasi</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -88,12 +88,13 @@
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Tanaman Pangan</label>
                             <div class="col-sm-8">
-                                <select class="form-control" id="kalkulasi" name="kalkulasi" required>
+                                <input type="text" class="form-control" id="kalkulasi" name="kalkulasi">
+                                {{-- <select class="form-control" id="kalkulasi" name="kalkulasi" required>
                                     <option value="">-- Pilih Tanaman Pangan --</option>
                                     <option value="Padi">Padi</option>
                                     <option value="Jagung">Jagung</option>
                                     <option value="Kedelai">Kedelai</option>
-                                </select>
+                                </select> --}}
 
                                 <div class="invalid-feedback">
                                     Tolong isi Nama Kecamatan!
@@ -155,6 +156,7 @@
                             </div>
                         </div>
                     </div>
+                </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>

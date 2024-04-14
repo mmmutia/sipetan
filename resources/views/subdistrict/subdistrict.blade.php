@@ -66,8 +66,8 @@
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <a class="btn btn-primary btn-action mr-1" href="/edit-subdistrict,{{ $data->id }}" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-                                                    {{-- <a href="#edit{{ $data->id }}" data-toggle="modal" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a> --}}
-                                                    <form action="edit-subdistrict,{{ $data->id }}" method="POST" class="ml-2">
+                                                    {{-- <a href="#edit-kriteria{{ $data->id }}" data-toggle="modal" class="btn btn-primary btn-action mr-1" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a> --}}
+                                                    <form action="/delete-subdistrict,{{ $data->id }}" method="POST" class="ml-2">
                                                         @method('DELETE')
                                                         @csrf
                                                         <button class="btn btn-danger btn-action confirm_delete"><i class="fas fa-trash"></i></button>
@@ -77,7 +77,7 @@
                                         </tr>
 
                                         <!-- Modal Edit -->
-                                        <div class="modal fade" id="edit{{ $data->id }}" tabindex="-1" role="dialog"
+                                        {{-- <div class="modal fade" id="edit{{ $data->id }}" tabindex="-1" role="dialog"
                                             aria-labelledby="myModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                                                 @if($subdistricts->isEmpty())
@@ -168,7 +168,7 @@
                                                 </div>
                                                 @endif
                                             </div>
-                                        </div>
+                                        </div> --}}
 
                                         @endforeach
                                 </tbody>
@@ -180,6 +180,43 @@
         </div>
     </section>
 </div>
+
+    <!-- Modal Import-->
+    <div class="modal fade center-modal" id="import-subdistrict" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Import Data Alternatif</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/import-subdistrict" class="needs-validation" novalidate=""
+                    method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="card-body">
+                        <div class="form-group row">
+                            <div class="col-sm-12">
+                                <input type="file" class="form-control" id="file" name="file"
+                                    required="">
+                                <div class="invalid-feedback">
+                                    Tolong upload sebuah file!
+                                </div>
+                                <label class="col-sm-12 col-form-label">- Unduh template dibawah terlebih dahulu </label>
+                                <label class="col-sm-12 col-form-label">- Format file yang di Upload dalam bentuk
+                                    (.xlxs) </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/downloadtemplate-subdistrict" class="btn btn-info mb-2">Unduh Template</a>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
 
      <!-- Modal Add-->
      <div class="modal fade center-modal" id="add-subdistrict" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -257,6 +294,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
@@ -264,48 +302,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
-    <!-- Modal Import-->
-    <div class="modal fade center-modal" id="import-subdistrict" tabindex="-1" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Import Data Alternatif</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="/import-subdistrict" class="needs-validation" novalidate=""
-                    method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="card-body">
-                        <div class="form-group row">
-                            <div class="col-sm-12">
-                                <input type="file" class="form-control" id="file" name="file"
-                                    required="">
-                                <div class="invalid-feedback">
-                                    Tolong upload sebuah file!
-                                </div>
-                                <label class="col-sm-12 col-form-label">- Unduh template dibawah terlebih dahulu </label>
-                                <label class="col-sm-12 col-form-label">- Format file yang di Upload dalam bentuk
-                                    (.xlxs) </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="/downloadtemplate-subdistrict" class="btn btn-info mb-2">Unduh Template</a>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-
-
 
 @endsection
 

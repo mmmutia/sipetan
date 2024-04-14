@@ -51,7 +51,7 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'ceklevel:admin'])->group(function () {
 
-
+    Route::get('/alternatif',[App\Http\Controllers\SubsidtrictController::class, 'alternatif'])->name('/alternatif');
     Route::get('/add-subdistrict',[App\Http\Controllers\SubsidtrictController::class, 'create'])->name('/add-subdistrict');
     Route::post('/save-subdistrict',[App\Http\Controllers\SubsidtrictController::class, 'store'])->name('/save-subdistrict');
     Route::get('/edit-subdistrict,{id}',[App\Http\Controllers\SubsidtrictController::class, 'edit'])->name('/edit-subdistrict');
@@ -60,7 +60,7 @@ Route::middleware(['auth', 'ceklevel:admin'])->group(function () {
     Route::get('/export-subdistrict',[App\Http\Controllers\SubsidtrictController::class, 'subdistrictexport'])->name('/export-subdistrict');
     Route::post('/import-subdistrict',[App\Http\Controllers\SubsidtrictController::class, 'subdistrictimport'])->name('/import-subdistrict');
     Route::get('/downloadtemplate-subdistrict',[App\Http\Controllers\SubsidtrictController::class, 'downloadTemplate'])->name('/downloadtemplate-subdistrict');
-    // Route::resource('/admin/subdistrict', SubsidtrictController::class);
+    Route::resource('/admin/subdistrict', SubsidtrictController::class);
     Route::get('/delete-all-data', [SubsidtrictController::class, 'deleteAllData'])->name('delete.all.data');
 
     Route::get('/perhitungan',[App\Http\Controllers\SubsidtrictController::class, 'perhitungan'])->name('/admin/perhitungan');
@@ -74,7 +74,7 @@ Route::middleware(['auth', 'ceklevel:admin'])->group(function () {
     Route::post('/save-users',[App\Http\Controllers\UserController::class, 'store'])->name('/save-users');
     Route::get('/edit-users-{id}',[App\Http\Controllers\UserController::class, 'edit'])->name('/edit-users');
     Route::post('/update-users-{id}',[App\Http\Controllers\UserController::class, 'update'])->name('/update-users');
-    Route::get('/delete-users-{id}',[App\Http\Controllers\UserController::class, 'destroy'])->name('/delete-users');
+    Route::get('/delete-users,{id}',[App\Http\Controllers\UserController::class, 'destroy'])->name('/delete-users');
     Route::get('/export-users',[App\Http\Controllers\UserController::class, 'userexport'])->name('/export-users');
     Route::post('/import-users',[App\Http\Controllers\UserController::class, 'humidityimport'])->name('/import-users');
     Route::get('/downloadtemplate-users',[App\Http\Controllers\UserController::class, 'downloadTemplate'])->name('/downloadtemplate-users');
@@ -83,7 +83,7 @@ Route::middleware(['auth', 'ceklevel:admin'])->group(function () {
     Route::get('/kalkulasi',[App\Http\Controllers\KalkulasiController::class, 'index'])->name('/kalkulasi');
 
     Route::post('/save-data',[App\Http\Controllers\KalkulasiController::class, 'simpanData'])->name('/save-data');
-
+    Route::get('/del-kal', [KalkulasiController::class, 'deleteKal'])->name('delete.kal');
     Route::get('/hitung-kal',[App\Http\Controllers\KalkulasiController::class, 'pembagi'])->name('/hitung-kal');
     Route::get('/add-kalkulasi',[App\Http\Controllers\KalkulasiController::class, 'create'])->name('/add-kalkulasi');
     Route::post('/save-kalkulasi',[App\Http\Controllers\KalkulasiController::class, 'store'])->name('/save-kalkulasi');

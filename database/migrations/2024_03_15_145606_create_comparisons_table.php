@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('comparisons', function (Blueprint $table) {
             $table->id();
             $table->foreignId('subdistrict_id')->constrained('subdistricts');
-            $table->string('result');
-            $table->string('percentase');
+            $table->foreignId('kalkulasis_id')->constrained('kalkulasis');
             $table->timestamps();
         });
     }

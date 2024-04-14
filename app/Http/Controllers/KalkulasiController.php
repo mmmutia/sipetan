@@ -233,48 +233,90 @@ class KalkulasiController extends Controller
     }
 
 
+    // public function simpanData()
+    // {
+    //     $preverensis = Preverensi::all();
+    //     $preverensi_kal = PreverensiKal::all();
+    //     if ($preverensi_kal->isEmpty()) {
+    //         return back()->withWarning('Isi Data Kalkulasi terlebih dahulu!');
+    //     }
+
+    //     Comparison::truncate();
+
+    //     foreach ($preverensis as $preverensi) {
+    //         $prev_padi = PreverensiKal::where('kalkulasis_id', '1')->first();
+    //         $prev_jagung = PreverensiKal::where('kalkulasis_id', '2')->first();
+    //         $prev_kedelai = PreverensiKal::where('kalkulasis_id', '3')->first();
+
+    //         $results = new Comparison(); // Membuat instance model untuk menyimpan hasil perbandingan
+
+    //         if ($preverensi->preverensi >= $prev_padi->preverensi) {
+    //             $results->result = "Padi";
+    //         } elseif ($preverensi->preverensi >= $prev_jagung->preverensi) {
+    //             $results->result = "Jagung";
+    //         } else {
+    //             $results->result = "Kedelai";
+    //         }
+
+    //         // Mengatur ID kecamatan untuk hasil perbandingan
+    //         $results->subdistrict_id = $preverensi->subdistrict_id;
+
+    //         // Menyimpan hasil perbandingan ke database
+    //         $results->save();
+    //     }
+
+    //     return redirect('/comparison');
+    // }
+
     public function simpanData()
-    {
-        $preverensis = Preverensi::all();
-        $preverensi_kal = PreverensiKal::all();
-        if ($preverensi_kal->isEmpty()) {
-            return back()->withWarning('Isi Data Kalkulasi terlebih dahulu!');
-        }
-
-        Comparison::truncate();
-
-        // Simpan hasil perhitungan dan hitung persentase
-        foreach ($preverensis as $preverensi) {
-            $prev_padi = PreverensiKal::where('kalkulasis_id', '1')->first();
-            $prev_jagung = PreverensiKal::where('kalkulasis_id', '2')->first();
-            $prev_kedelai = PreverensiKal::where('kalkulasis_id', '3')->first();
-
-            $results = new Comparison(); // Membuat instance model untuk menyimpan hasil perbandingan
-
-            if ($preverensi->preverensi >= $prev_padi->preverensi) {
-                $results->result = "Padi";
-            } elseif ($preverensi->preverensi >= $prev_jagung->preverensi) {
-                $results->result = "Jagung";
-            } else {
-                $results->result = "Kedelai";
-            }
-
-            // Mengatur ID kecamatan untuk hasil perbandingan
-            $results->subdistrict_id = $preverensi->subdistrict_id;
-
-            // Hitung persentase
-            $prev = PreverensiKal::where('kalkulasis_id', '1')->first(); // Ambil data kalkulasi untuk Padi
-            $persentase = ($preverensi->preverensi / $prev->preverensi) * 100;
-
-            // Simpan persentase
-            $results->percentase = $persentase;
-
-            // Menyimpan hasil perbandingan ke database
-            $results->save();
-        }
-
-        return redirect('/comparison');
+{
+    $preverensis = Preverensi::all();
+    $preverensi_kal = PreverensiKal::all();
+    if ($preverensi_kal->isEmpty()) {
+        return back()->withWarning('Isi Data Kalkulasi terlebih dahulu!');
     }
+
+    Comparison::truncate();
+
+    // Mendefinisikan array untuk menyimpan nilai preverensi maksimum untuk setiap jenis tanaman
+    $max_preverensi = [];
+
+    foreach ($preverensi_kal as $preverensi) {
+        $max_preverensi[$preverensi->kalkulasis_id] = $preverensi->preverensi;
+    }
+
+    foreach ($preverensis as $preverensi) {
+        $results = new Comparison(); // Membuat instance model untuk menyimpan hasil perbandingan
+
+        // Mengatur nilai awal untuk perbandingan
+        $result = 3; // Nilai default untuk hasil perbandingan
+        $max_value = -1;
+
+        // Melakukan perbandingan untuk setiap jenis tanaman
+        foreach ($max_preverensi as $kalkulasis_id => $preverensi_value) {
+            if ($preverensi->preverensi >= $preverensi_value && $preverensi_value > $max_value) {
+                $result = $kalkulasis_id;
+                $max_value = $preverensi_value;
+            }
+        }
+
+        // Mengatur hasil perbandingan ke kolom 'kalkulasis_id'
+        $results->kalkulasis_id = $result;
+
+        // Mengatur ID kecamatan untuk hasil perbandingan
+        $results->subdistrict_id = $preverensi->subdistrict_id;
+
+        // Menyimpan hasil perbandingan ke database
+        $results->save();
+    }
+
+
+    return redirect('/comparison');
+}
+
+
+
+
 
     /**
      * Display the specified resource.
@@ -307,11 +349,20 @@ class KalkulasiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(Kalkulasi $kalkulasi, string $id)
+    public function delete(string $id)
     {
-        $kalkulasi = Kalkulasi::findorfail($id);
-        $kalkulasi->delete();
+    // Menghapus entri dari tabel Kalkulasi
+    $kalkulasi = Kalkulasi::findorfail($id);
+    $kalkulasi->delete();
 
-        return back()->withWarning('Data berhasil dihapus!');
+    return back()->withWarning('Data berhasil dihapus!');
     }
+
+    public function deleteKal()
+    {
+        PreverensiKal::truncate();
+
+        return redirect()->back()->withSuccess('Data berhasil di refresh!');
+    }
+
 }

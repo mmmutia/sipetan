@@ -14,14 +14,13 @@
 </head>
 <body>
     <div class="form-group">
-        <p align="center"><b>Data Kesesuaian Tanaman Pangan</b></p>
+        <p align="center"><b>Data Kesesuaian Tanaman Pangan Kabupaten Banyuwangi</b></p>
         <table class="static" align="center" rules="all" border="1px" style="width: 95%">
             <thead>
                 <tr>
                     <th class="text-center">No</th>
                     <th>Kecamatan</th>
                     <th>Kecocokan Tanaman Pangan</th>
-                    <th>Persentase</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,8 +28,7 @@
                 <tr>
                     <td class="text-center">{{ $loop->iteration }}</td>
                     <td>{{ $data->subdistrict->subdistrict }}</td>
-                    <td>{{ $data->result }}</td>
-                    <td>{{ number_format($data->percentase, 0, '.', '') }}%</td>
+                    <td>{{ $data->kalkulasi->kalkulasis }}</td>
                 </tr>
             @endforeach
             </tbody>

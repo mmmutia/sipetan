@@ -60,7 +60,7 @@ class LoginController extends Controller
             'password'=>bcrypt($request->password),
             'remember_toker'=>Str::random(60),
         ]);
-        return redirect('auth/login')->withSuccess('Berhasil register!');
+        return redirect('/login')->with('success', 'Berhasil Register!');
     }
 
     /**
