@@ -43,7 +43,7 @@
                                             <td>{{ $data->level }}</td>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <form action="delete-user,{{ $data->id }}" method="POST" class="ml-2">
+                                                    <form action="delete-users,{{ $data->id }}" method="POST" class="ml-2">
                                                         @method('DELETE')
                                                         @csrf
                                                         <button class="btn btn-danger btn-action confirm_delete"><i class="fas fa-trash"></i></button>

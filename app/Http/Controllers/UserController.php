@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Exports\UsersExport;
+use App\Models\Comparison;
+use App\Models\PreverensiKal;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -86,11 +88,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user, string $id)
+    public function delete(User $user, string $id)
     {
         $user = User::findorfail($id);
         $user->delete();
 
-        return redirect()->route('/')->with('warning', 'Akun berhasil diupdate!');
+        return back()->withWarning('Data Berhasil Dihapus!');
     }
 }

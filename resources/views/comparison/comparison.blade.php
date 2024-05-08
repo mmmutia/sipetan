@@ -47,6 +47,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="section-body">
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="card">
+                          <div class="card-header">
+                            <h4>Titik Koordinat dan Informasi Sektor Tanaman Pangan di Kabupaten Banyuwangi</h4>
+                          </div>
+                          <div class="card-body">
+                            <div id="map" data-height="400"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
             </div>
         </div>
     </div>

@@ -74,14 +74,14 @@ Route::middleware(['auth', 'ceklevel:admin'])->group(function () {
     Route::post('/save-users',[App\Http\Controllers\UserController::class, 'store'])->name('/save-users');
     Route::get('/edit-users-{id}',[App\Http\Controllers\UserController::class, 'edit'])->name('/edit-users');
     Route::post('/update-users-{id}',[App\Http\Controllers\UserController::class, 'update'])->name('/update-users');
-    Route::get('/delete-users,{id}',[App\Http\Controllers\UserController::class, 'destroy'])->name('/delete-users');
+    Route::delete('/delete-users,{id}',[App\Http\Controllers\UserController::class, 'delete'])->name('/delete-users');
     Route::get('/export-users',[App\Http\Controllers\UserController::class, 'userexport'])->name('/export-users');
     Route::post('/import-users',[App\Http\Controllers\UserController::class, 'humidityimport'])->name('/import-users');
     Route::get('/downloadtemplate-users',[App\Http\Controllers\UserController::class, 'downloadTemplate'])->name('/downloadtemplate-users');
 
 
     Route::get('/kalkulasi',[App\Http\Controllers\KalkulasiController::class, 'index'])->name('/kalkulasi');
-
+    Route::get('/map',[App\Http\Controllers\KalkulasiController::class, 'map'])->name('/map');
     Route::post('/save-data',[App\Http\Controllers\KalkulasiController::class, 'simpanData'])->name('/save-data');
     Route::get('/del-kal', [KalkulasiController::class, 'deleteKal'])->name('delete.kal');
     Route::get('/hitung-kal',[App\Http\Controllers\KalkulasiController::class, 'pembagi'])->name('/hitung-kal');

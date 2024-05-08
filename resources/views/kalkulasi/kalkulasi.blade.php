@@ -54,7 +54,7 @@
                                             <td>{{ $data->humidity }}</td>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <a class="btn btn-primary btn-action mr-1" href="/edit-kalkulasi,{{ $data->id }}" data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                                                    <a class="btn btn-primary btn-action mr-1" href="/edit-kalkulasi,{{ $data->id }}"  data-toggle="tooltip" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                                                     <form action="/delete-kalkulasi,{{ $data->id }}" method="POST" class="ml-2">
                                                         @method('DELETE')
                                                         @csrf
@@ -166,96 +166,10 @@
     </div>
 </div>
 
- <!-- Modal Lihat Data Alternatif-->
-{{-- <div class="modal fade center-modal" id="alternatif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            @if($kalkulasi->isEmpty())
-            <p>Error!</p>
-            @else
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Data Alternatif Kecamatan</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
 
-                <form action="{{ route(/update-subdistrict',) }}" class="needs-validation" novalidate="" method="POST">
-                    @csrf
-                    <div class="card-body">
-                        <div class="form-group row">
-                            <label class="col-sm-4 col-form-label">Nama </label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="altitude" name="altitude" value="" readonly>
-                                <div class="invalid-feedback">
-                                    Tolong isi Nama Ketinggian Tempat!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 col-form-label">Ketinggian Tempat </label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="altitude" name="altitude" value="" readonly>
-                                <div class="invalid-feedback">
-                                    Tolong isi Nama Ketinggian Tempat!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 col-form-label">Curah Hujan </label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="rainfall" name="rainfall" value="" readonly>
-                                <div class="invalid-feedback">
-                                    Tolong isi Nama Kecamatan!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 col-form-label">Penyinaran Matahari </label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="solar_radiation" name="solar_radiation" value="" readonly>
-                                <div class="invalid-feedback">
-                                    Tolong isi Nama Kecamatan!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 col-form-label">pH Tanah </label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="ph_soil" name="ph_soil" required="" value="" readonly>
-                                <div class="invalid-feedback">
-                                    Tolong isi Nama Kecamatan!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 col-form-label">Temperature </label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="temperature" name="temperature" value="" readonly>
-                                <div class="invalid-feedback">
-                                    Tolong isi Nama Kecamatan!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-sm-4 col-form-label">Kelembapan </label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" id="humidity" name="humidity" value="{{ $data->humidity }}" readonly>
-                                <div class="invalid-feedback">
-                                    Tolong isi Nama Kecamatan!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-
-            </div>
-            @endif
-        </div>
-    </div>
-</div> --}}
 
    <!-- Modal Edit -->
-{{-- <div class="modal fade" id="edit{{$data->id}}" tabindex="-1" role="dialog"
+{{-- <div class="modal fade" id="edit,{{ $data->id }}" tabindex="-1" role="dialog"
     aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         @if($kalkulasi->isEmpty())
@@ -264,11 +178,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="myModalLabel"><i class="fa fa-edit"></i> Edit
-                    Penilaian</h5>
+                    Kalkulasi</h5>
                 <button type="button" class="close" data-dismiss="modal"
                     aria-hidden="true">&times;</button>
             </div>
-            <form action="{{ route('admin/update-subdistrict',$data->id) }}" method="POST">
+            <form action="{{ route('/edit-kalkulasi',$data->id) }}" method="POST">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group row">

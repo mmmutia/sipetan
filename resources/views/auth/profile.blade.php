@@ -51,10 +51,10 @@
                 </div>
               </form>
           </div>
-          <div class="card-footer text-left">
+          {{-- <div class="card-footer text-left">
             <label>Ingin hapus akun?</label><br>
             <button class="btn btn-danger">Hapus akun saya</button>
-          </div>
+          </div> --}}
         </div>
       </div>
     </section>

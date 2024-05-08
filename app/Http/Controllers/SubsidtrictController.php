@@ -33,13 +33,6 @@ class SubsidtrictController extends Controller
         return view('subdistrict/perhitungan',compact('subdistricts'));
     }
 
-    public function hasil()
-    {
-        // Ambil nilai preferensi dari database
-        $preferences = Preverensi::orderByDesc('preverensi')->get();
-        // $preferences = Preverensi::all();
-        return view('hasil/hasil', compact('preferences'));
-    }
 
     public function pembagi(Request $request)
     {
@@ -54,17 +47,14 @@ class SubsidtrictController extends Controller
         $kriteria_temperature = Kriteria::where('name', 'temperature')->first();
         $kriteria_humidity = Kriteria::where('name', 'kelembapan')->first();
 
-        // Memeriksa apakah salah satu kriteria tidak ditemukan
         if (!$kriteria_altitude || !$kriteria_rainfall || !$kriteria_solar_radiation || !$kriteria_ph_soil || !$kriteria_temperature || !$kriteria_humidity) {
             return back()->withWarning('Isi dan periksa data kriteria terlebih dahulu!');
         }
-
 
         $results = [];
         $bobots = [];
         $hasil_max = [];
         $hasil_min = [];
-        $d_plus = [];
         $preference = [];
 
         $sum_of_altitude = 0;
@@ -73,8 +63,6 @@ class SubsidtrictController extends Controller
         $sum_of_ph_soil = 0;
         $sum_of_temperature = 0;
         $sum_of_humidity = 0;
-        $plus = 0;
-        $min = 0;
 
         foreach ($subdistricts as $data) {
             $sum_of_altitude += pow($data->altitude, 2);
@@ -92,7 +80,6 @@ class SubsidtrictController extends Controller
         $result5 = sqrt($sum_of_temperature);
         $result6 = sqrt($sum_of_humidity);
 
-        // Menggunakan array untuk menyimpan hasil
         $results['result1'] = $result1;
         $results['result2'] = $result2;
         $results['result3'] = $result3;
@@ -101,7 +88,7 @@ class SubsidtrictController extends Controller
         $results['result6'] = $result6;
 
         foreach ($subdistricts as $data) {
-            // Mendapatkan nilai kriteria yang sesuai untuk setiap variabel
+            // Untuk mendapatkan nilai kriteria yang sesuai untuk setiap variabel
             $kriteria_altitude = Kriteria::where('name', 'ketinggian tempat')->first();
             $kriteria_rainfall = Kriteria::where('name', 'curah hujan')->first();
             $kriteria_solar_radiation = Kriteria::where('name', 'penyinaran matahari')->first();
@@ -117,7 +104,6 @@ class SubsidtrictController extends Controller
             $bobot_temperature = ($data->temperature / $results['result5']) * $kriteria_temperature->bobot;
             $bobot_humidity = ($data->humidity / $results['result6']) * $kriteria_humidity->bobot;
 
-            // Simpan bobot ke dalam array
             $bobots[$data->id] = [
                 'bobot_altitude' => $bobot_altitude,
                 'bobot_rainfall' => $bobot_rainfall,
@@ -129,15 +115,13 @@ class SubsidtrictController extends Controller
         }
 
         foreach ($subdistricts as $data) {
-            // Mendapatkan nilai kriteria yang sesuai untuk setiap variabel
             $hasil_altitude = Kriteria::where('description', 'cost')->first();
             $hasil_rainfall = Kriteria::where('description', 'benefit')->first();
             $hasil_solar_radiation = Kriteria::where('description', 'benefit')->first();
             $hasil_ph_soil = Kriteria::where('description', 'benefit')->first();
             $hasil_temperature = Kriteria::where('description', 'cost')->first();
             $hasil_humidity = Kriteria::where('description', 'benefit')->first();
-        // Simpan hasil perhitungan maksimum (benefit) ke dalam array
-        // Simpan hasil perhitungan maksimum (benefit) ke dalam array
+
         $hasil_max = [
             'bobot_altitude' => ($hasil_altitude->description == 'benefit') ? max(array_column($bobots, 'bobot_altitude')) : min(array_column($bobots, 'bobot_altitude')),
             'bobot_rainfall' => ($hasil_rainfall->description == 'cost') ? min(array_column($bobots, 'bobot_rainfall')) : max(array_column($bobots, 'bobot_rainfall')),
@@ -147,7 +131,6 @@ class SubsidtrictController extends Controller
             'bobot_humidity' => ($hasil_humidity->description == 'cost') ? min(array_column($bobots, 'bobot_humidity')) : max(array_column($bobots, 'bobot_humidity')),
         ];
 
-        // Simpan hasil perhitungan minimum (cost) ke dalam array
         $hasil_min = [
             'bobot_altitude' => ($hasil_altitude->description == 'benefit') ? min(array_column($bobots, 'bobot_altitude')) : max(array_column($bobots, 'bobot_altitude')),
             'bobot_rainfall' => ($hasil_rainfall->description == 'cost') ? max(array_column($bobots, 'bobot_rainfall')) : min(array_column($bobots, 'bobot_rainfall')),
@@ -159,17 +142,9 @@ class SubsidtrictController extends Controller
 
 
         // Menghitung D+
-
         $d_plus_values = [];
-
         $d_min_values = [];
-
-        // Loop melalui setiap kecamatan
         foreach ($subdistricts as $data) {
-            // Perhitungan bobot untuk setiap variabel
-            // ...
-
-            // Perhitungan D+ untuk setiap kecamatan
             $sum_of_squares = pow($hasil_max['bobot_altitude'] - $bobots[$data->id]['bobot_altitude'], 2) +
                              pow($hasil_max['bobot_rainfall'] - $bobots[$data->id]['bobot_rainfall'], 2) +
                              pow($hasil_max['bobot_solar_radiation'] - $bobots[$data->id]['bobot_solar_radiation'], 2) +
@@ -178,20 +153,10 @@ class SubsidtrictController extends Controller
                              pow($hasil_max['bobot_humidity'] - $bobots[$data->id]['bobot_humidity'], 2);
 
             $result_d_plus = sqrt($sum_of_squares);
-
-            // Simpan hasil perhitungan D+ untuk setiap kecamatan
             $d_plus_values[$data->id] = $result_d_plus;
         }
 
-        // Gunakan $d_plus_values sesuai kebutuhan di aplikasi Anda
-        // dd($d_plus_values);
-
-        // Loop melalui setiap kecamatan
         foreach ($subdistricts as $data) {
-            // Perhitungan bobot untuk setiap variabel
-            // ...
-
-            // Perhitungan D+ untuk setiap kecamatan
             $sum_of_squares = pow($bobots[$data->id]['bobot_altitude'] - $hasil_min['bobot_altitude'], 2) +
                             pow( $bobots[$data->id]['bobot_rainfall'] - $hasil_min['bobot_rainfall'], 2) +
                             pow($bobots[$data->id]['bobot_solar_radiation']- $hasil_min['bobot_solar_radiation'], 2) +
@@ -200,31 +165,21 @@ class SubsidtrictController extends Controller
                             pow($bobots[$data->id]['bobot_humidity'] - $hasil_min['bobot_humidity'], 2);
 
             $result_d_min = sqrt($sum_of_squares);
-
-            // Simpan hasil perhitungan D+ untuk setiap kecamatan
             $d_min_values[$data->id] = $result_d_min;
         }
 
         Preverensi::truncate();
-       // Loop melalui setiap kecamatan
         foreach ($subdistricts as $data) {
-        // Perhitungan D+/ (D+ + D-)
+        // Proses perhitungan nilai preferensi
         $preference_value = $d_min_values[$data->id] / ($d_min_values[$data->id] + $d_plus_values[$data->id]);
-
-        // Simpan hasil perhitungan preferensi untuk setiap kecamatan
         $preferences[$data->id] = $preference_value;
-
-            // Simpan hasil preferensi ke dalam database
             $preference = new Preverensi();
-            $preference->subdistrict_id = $data->id; // Sesuaikan dengan nama kolom ID kecamatan
+            $preference->subdistrict_id = $data->id;
             $preference->preverensi = $preference_value;
             $preference->save();
-
         }
 
-
         return view('perhitungan/perhitungan', ['results' => $results, 'bobots' => $bobots, 'hasil_max' => $hasil_max, 'hasil_min' => $hasil_min, 'd_plus_values' => $d_plus_values, 'd_min_values' => $d_min_values, 'subdistricts' => $subdistricts]);
-        // return $results;
         }
     }
 
@@ -313,6 +268,12 @@ class SubsidtrictController extends Controller
      */
     public function delete(Subdistrict $subdistrict, string $id)
     {
+        $comparison = Comparison::all();
+        if (!$comparison->isEmpty()) {
+            return back()->withInfo('Refresh Data Alternatif atau Kalkulasi terlebih dahulu!');
+        }
+        // return back()->withWarning('Refresh data Alternatif atau Kalkulasi terlebih dahulu!');
+
         $subdistrict = Subdistrict::findorfail($id);
         $subdistrict->delete();
 

@@ -69,7 +69,6 @@ class KalkulasiController extends Controller
         $bobots = [];
         $hasil_max = [];
         $hasil_min = [];
-        $d_plus = [];
         $preference = [];
 
         $sum_of_altitude = 0;
@@ -78,8 +77,6 @@ class KalkulasiController extends Controller
         $sum_of_ph_soil = 0;
         $sum_of_temperature = 0;
         $sum_of_humidity = 0;
-        $plus = 0;
-        $min = 0;
 
         foreach ($kalkulasi as $data) {
             $sum_of_altitude += pow($data->altitude, 2);
@@ -97,7 +94,6 @@ class KalkulasiController extends Controller
         $result5 = sqrt($sum_of_temperature);
         $result6 = sqrt($sum_of_humidity);
 
-        // Menggunakan array untuk menyimpan hasil
         $results['result1'] = $result1;
         $results['result2'] = $result2;
         $results['result3'] = $result3;
@@ -122,7 +118,6 @@ class KalkulasiController extends Controller
             $bobot_temperature = ($data->temperature / $results['result5']) * $kriteria_temperature->bobot;
             $bobot_humidity = ($data->humidity / $results['result6']) * $kriteria_humidity->bobot;
 
-            // Simpan bobot ke dalam array
             $bobots[$data->id] = [
                 'bobot_altitude' => $bobot_altitude,
                 'bobot_rainfall' => $bobot_rainfall,
@@ -134,15 +129,12 @@ class KalkulasiController extends Controller
         }
 
         foreach ($kalkulasi as $data) {
-            // Mendapatkan nilai kriteria yang sesuai untuk setiap variabel
             $hasil_altitude = Kriteria::where('description', 'cost')->first();
             $hasil_rainfall = Kriteria::where('description', 'benefit')->first();
             $hasil_solar_radiation = Kriteria::where('description', 'benefit')->first();
             $hasil_ph_soil = Kriteria::where('description', 'benefit')->first();
             $hasil_temperature = Kriteria::where('description', 'cost')->first();
             $hasil_humidity = Kriteria::where('description', 'benefit')->first();
-        // Simpan hasil perhitungan maksimum (benefit) ke dalam array
-        // Simpan hasil perhitungan maksimum (benefit) ke dalam array
         $hasil_max = [
             'bobot_altitude' => ($hasil_altitude->description == 'benefit') ? max(array_column($bobots, 'bobot_altitude')) : min(array_column($bobots, 'bobot_altitude')),
             'bobot_rainfall' => ($hasil_rainfall->description == 'cost') ? min(array_column($bobots, 'bobot_rainfall')) : max(array_column($bobots, 'bobot_rainfall')),
@@ -152,7 +144,6 @@ class KalkulasiController extends Controller
             'bobot_humidity' => ($hasil_humidity->description == 'cost') ? min(array_column($bobots, 'bobot_humidity')) : max(array_column($bobots, 'bobot_humidity')),
         ];
 
-        // Simpan hasil perhitungan minimum (cost) ke dalam array
         $hasil_min = [
             'bobot_altitude' => ($hasil_altitude->description == 'benefit') ? min(array_column($bobots, 'bobot_altitude')) : max(array_column($bobots, 'bobot_altitude')),
             'bobot_rainfall' => ($hasil_rainfall->description == 'cost') ? max(array_column($bobots, 'bobot_rainfall')) : min(array_column($bobots, 'bobot_rainfall')),
@@ -164,17 +155,10 @@ class KalkulasiController extends Controller
 
 
         // Menghitung D+
-
         $d_plus_values = [];
-
         $d_min_values = [];
 
-        // Loop melalui setiap kecamatan
         foreach ($kalkulasi as $data) {
-            // Perhitungan bobot untuk setiap variabel
-            // ...
-
-            // Perhitungan D+ untuk setiap kecamatan
             $sum_of_squares = pow($hasil_max['bobot_altitude'] - $bobots[$data->id]['bobot_altitude'], 2) +
                              pow($hasil_max['bobot_rainfall'] - $bobots[$data->id]['bobot_rainfall'], 2) +
                              pow($hasil_max['bobot_solar_radiation'] - $bobots[$data->id]['bobot_solar_radiation'], 2) +
@@ -183,20 +167,10 @@ class KalkulasiController extends Controller
                              pow($hasil_max['bobot_humidity'] - $bobots[$data->id]['bobot_humidity'], 2);
 
             $result_d_plus = sqrt($sum_of_squares);
-
-            // Simpan hasil perhitungan D+ untuk setiap kecamatan
             $d_plus_values[$data->id] = $result_d_plus;
         }
 
-        // Gunakan $d_plus_values sesuai kebutuhan di aplikasi Anda
-        // dd($d_plus_values);
-
-        // Loop melalui setiap kecamatan
         foreach ($kalkulasi as $data) {
-            // Perhitungan bobot untuk setiap variabel
-            // ...
-
-            // Perhitungan D+ untuk setiap kecamatan
             $sum_of_squares = pow($bobots[$data->id]['bobot_altitude'] - $hasil_min['bobot_altitude'], 2) +
                             pow( $bobots[$data->id]['bobot_rainfall'] - $hasil_min['bobot_rainfall'], 2) +
                             pow($bobots[$data->id]['bobot_solar_radiation']- $hasil_min['bobot_solar_radiation'], 2) +
@@ -205,71 +179,26 @@ class KalkulasiController extends Controller
                             pow($bobots[$data->id]['bobot_humidity'] - $hasil_min['bobot_humidity'], 2);
 
             $result_d_min = sqrt($sum_of_squares);
-
-            // Simpan hasil perhitungan D+ untuk setiap kecamatan
             $d_min_values[$data->id] = $result_d_min;
         }
 
         PreverensiKal::truncate();
-        // Loop melalui setiap kecamatan
          foreach ($kalkulasi as $data) {
-         // Perhitungan D+/ (D+ + D-)
+         // Proses perhitungan nilai preferensi
          $preference_value = $d_min_values[$data->id] / ($d_min_values[$data->id] + $d_plus_values[$data->id]);
-
-         // Simpan hasil perhitungan preferensi untuk setiap kecamatan
          $preferences[$data->id] = $preference_value;
-
-             // Simpan hasil preferensi ke dalam database
              $preference = new PreverensiKal();
-             $preference->kalkulasis_id = $data->id; // Sesuaikan dengan nama kolom ID kecamatan
+             $preference->kalkulasis_id = $data->id;
              $preference->preverensi = $preference_value;
              $preference->save();
-
          }
 
         return view('kalkulasi/hitung-kal', ['results' => $results, 'bobots' => $bobots, 'hasil_max' => $hasil_max, 'hasil_min' => $hasil_min, 'd_plus_values' => $d_plus_values, 'd_min_values' => $d_min_values, 'kalkulasi' => $kalkulasi]);
-        // return $results;
         }
     }
 
-
-    // public function simpanData()
-    // {
-    //     $preverensis = Preverensi::all();
-    //     $preverensi_kal = PreverensiKal::all();
-    //     if ($preverensi_kal->isEmpty()) {
-    //         return back()->withWarning('Isi Data Kalkulasi terlebih dahulu!');
-    //     }
-
-    //     Comparison::truncate();
-
-    //     foreach ($preverensis as $preverensi) {
-    //         $prev_padi = PreverensiKal::where('kalkulasis_id', '1')->first();
-    //         $prev_jagung = PreverensiKal::where('kalkulasis_id', '2')->first();
-    //         $prev_kedelai = PreverensiKal::where('kalkulasis_id', '3')->first();
-
-    //         $results = new Comparison(); // Membuat instance model untuk menyimpan hasil perbandingan
-
-    //         if ($preverensi->preverensi >= $prev_padi->preverensi) {
-    //             $results->result = "Padi";
-    //         } elseif ($preverensi->preverensi >= $prev_jagung->preverensi) {
-    //             $results->result = "Jagung";
-    //         } else {
-    //             $results->result = "Kedelai";
-    //         }
-
-    //         // Mengatur ID kecamatan untuk hasil perbandingan
-    //         $results->subdistrict_id = $preverensi->subdistrict_id;
-
-    //         // Menyimpan hasil perbandingan ke database
-    //         $results->save();
-    //     }
-
-    //     return redirect('/comparison');
-    // }
-
     public function simpanData()
-{
+    {
     $preverensis = Preverensi::all();
     $preverensi_kal = PreverensiKal::all();
     if ($preverensi_kal->isEmpty()) {
@@ -278,45 +207,28 @@ class KalkulasiController extends Controller
 
     Comparison::truncate();
 
-    // Mendefinisikan array untuk menyimpan nilai preverensi maksimum untuk setiap jenis tanaman
     $max_preverensi = [];
-
     foreach ($preverensi_kal as $preverensi) {
         $max_preverensi[$preverensi->kalkulasis_id] = $preverensi->preverensi;
     }
 
     foreach ($preverensis as $preverensi) {
-        $results = new Comparison(); // Membuat instance model untuk menyimpan hasil perbandingan
+        $results = new Comparison();
 
-        // Mengatur nilai awal untuk perbandingan
-        $result = 3; // Nilai default untuk hasil perbandingan
         $max_value = -1;
 
-        // Melakukan perbandingan untuk setiap jenis tanaman
         foreach ($max_preverensi as $kalkulasis_id => $preverensi_value) {
             if ($preverensi->preverensi >= $preverensi_value && $preverensi_value > $max_value) {
                 $result = $kalkulasis_id;
                 $max_value = $preverensi_value;
             }
         }
-
-        // Mengatur hasil perbandingan ke kolom 'kalkulasis_id'
         $results->kalkulasis_id = $result;
-
-        // Mengatur ID kecamatan untuk hasil perbandingan
         $results->subdistrict_id = $preverensi->subdistrict_id;
-
-        // Menyimpan hasil perbandingan ke database
         $results->save();
     }
-
-
     return redirect('/comparison');
-}
-
-
-
-
+    }
 
     /**
      * Display the specified resource.
@@ -346,14 +258,24 @@ class KalkulasiController extends Controller
         return redirect('/kalkulasi')->withInfo('Data berhasil diupdate!');
     }
 
+    public function map()
+    {
+        return view('comparison.map');
+    }
+
     /**
      * Remove the specified resource from storage.
      */
     public function delete(string $id)
     {
-    // Menghapus entri dari tabel Kalkulasi
-    $kalkulasi = Kalkulasi::findorfail($id);
-    $kalkulasi->delete();
+        $comparison = Comparison::all();
+        if (!$comparison->isEmpty()) {
+            return back()->withInfo('Refresh Data Kalkulasi atau Alternatif terlebih dahulu!');
+        }
+        // return back()->withWarning('Refresh data Kalkulasi atau Alternatif terlebih dahulu!');
+
+        $kalkulasi = Kalkulasi::findorfail($id);
+        $kalkulasi->delete();
 
     return back()->withWarning('Data berhasil dihapus!');
     }

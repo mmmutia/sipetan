@@ -217,62 +217,6 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h2>Tabel Hasil Preferensi dan Rangking</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped" id="table-3">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">#</th>
-                                        <th>Kecamatan</th>
-                                        <th>Preferensi</th>
-                                        <th>Ranking</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                   {{-- Buat array untuk menyimpan hasil perhitungan --}}
-                                <?php $rankings = []; ?>
-
-                                {{-- Loop melalui setiap kecamatan --}}
-                                @foreach ($kalkulasi as $data)
-                                    {{-- Perhitungan D+/ (D+ + D-) --}}
-                                    <?php
-                                        $preference = $d_min_values[$data->id] / ($d_min_values[$data->id] + $d_plus_values[$data->id]);
-                                    ?>
-
-                                    {{-- Simpan hasil perhitungan ke dalam array --}}
-                                    <?php $rankings[] = ['kalkulasis' => $data->kalkulasis, 'preference' => $preference]; ?>
-                                @endforeach
-
-                                {{-- Urutkan array berdasarkan preferensi dari yang terbesar ke terkecil --}}
-                                <?php
-                                    usort($rankings, function($a, $b) {
-                                        return $b['preference'] <=> $a['preference'];
-                                    });
-                                ?>
-
-                                {{-- Tampilkan hasil perhitungan D+/ (D+ + D-) dalam bentuk tabel --}}
-                                @foreach ($rankings as $ranking)
-                                    <tr>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $ranking['kalkulasis'] }}</td>
-                                        <td>{{ $ranking['preference'] }}</td>
-                                        <td class="text-center bold">{{ $loop->iteration }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
     </section>
 </div>

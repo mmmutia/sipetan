@@ -20,11 +20,7 @@
                   <div class="card-body">
                     <div class="form-group">
                         <label>Nama</label>
-                        <select class="form-control" id="kalkulasis" name="kalkulasis">
-                            <option {{ $kalkulasi->kalkulasis == 'Padi' ? 'selected' : '' }}>Padi</option>
-                            <option {{ $kalkulasi->kalkulasis == 'Jagung' ? 'selected' : '' }}>Jagung</option>
-                            <option {{ $kalkulasi->kalkulasis == 'Kedelai' ? 'selected' : '' }}>Kedelai</option>
-                        </select>
+                        <input type="text" id="kalkulasis" name="kalkulasis" class="form-control" value="{{ $kalkulasi->kalkulasis }}">
                       </div>
                       <div class="form-group">
                         <label>Ketinggian Tempat</label>
